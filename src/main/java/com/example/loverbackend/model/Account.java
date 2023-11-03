@@ -16,13 +16,15 @@ public class Account extends BaseEntity {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String username;
+    private String username; // tên đăng nhập
 
     @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
-    private String phoneNumber;
+    private String email;
+    @Column(nullable = false)
+    private String nickname; // tên hiển thị trong ứng dụng
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "accounts_roles",
