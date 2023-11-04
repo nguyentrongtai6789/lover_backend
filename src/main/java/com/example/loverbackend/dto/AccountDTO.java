@@ -8,6 +8,6 @@ import java.util.Set;
 public class AccountDTO extends BaseDTO {
     private Long id;
     private String username;
-    private String phoneNumber;
+    private String email;
     private Set<RoleDTO> roles;
 }
