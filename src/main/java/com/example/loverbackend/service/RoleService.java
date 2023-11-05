@@ -18,37 +18,34 @@ public class RoleService extends BaseService<RoleRepository, RoleDTO, Role> {
     private RoleMapper roleMapper;
 
     @Override
-    public RoleDTO create(RoleDTO dto) {
-        roleRepository.save(roleMapper.toEntity(dto));
-        return dto;
+    public void save(Role role) {
+        roleRepository.save(role);
     }
 
     @Override
-    public RoleDTO update(RoleDTO dto) {
+    public RoleDTO getDetails(Long id) {
+        Optional<Role> roleOptional = roleRepository.findById(id);
+        if (!roleOptional.equals(null)) {
+            return roleMapper.toDto(roleOptional.get());
+        }
         return null;
     }
 
     @Override
-    public Optional<RoleDTO> getDetails(Long id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public RoleDTO delete(RoleDTO dto) {
-        return null;
+    public boolean deleteById(Long id) {
+        Optional<Role> roleOptional = roleRepository.findById(id);
+        if (!roleOptional.equals(null)) {
+            roleRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public List<RoleDTO> findAll() {
-        return null;
+        List<Role> roles = roleRepository.findAll();
+        return roleMapper.toDto(roles);
     }
 
-    public Optional<Role> findById(Long id) {
-        return roleRepository.findById(id);
-    }
-
-    public Role findByName(String name) {
-        return roleRepository.findByName(name);
-    }
 
 }

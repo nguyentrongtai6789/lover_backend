@@ -27,32 +27,34 @@ public class AccountService extends BaseService<AccountRepository, AccountDTO, A
     private AccountMapper accountMapper;
 
     @Override
-    public AccountDTO create(AccountDTO dto) {
+    public void save(Account account) {
+        accountRepository.save(account);
+    }
+
+    @Override
+    public AccountDTO getDetails(Long id) {
+        Optional<Account> accountOptional = accountRepository.findById(id);
+        if (!accountOptional.equals(null)) {
+            return accountMapper.toDto(accountOptional.get());
+        }
         return null;
     }
 
     @Override
-    public AccountDTO update(AccountDTO dto) {
-        return null;
-    }
-
-    @Override
-    public Optional<AccountDTO> getDetails(Long id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public AccountDTO delete(AccountDTO dto) {
-        return null;
+    public boolean deleteById(Long id) {
+        Optional<Account> accountOptional = accountRepository.findById(id);
+        if (!accountOptional.equals(null)) {
+            accountOptional.get().setIsActive(2); // cài đặt isActive = 2
+            return true;
+        }
+        return false;
     }
 
     @Override
     public List<AccountDTO> findAll() {
         return accountMapper.toDto(accountRepository.findAll());
     }
-    public Optional<Account> findById(Long id) {
-        return accountRepository.findById(id);
-    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -64,6 +66,7 @@ public class AccountService extends BaseService<AccountRepository, AccountDTO, A
         }
         return null;
     }
+
     public AccountDTO findByUsername(String username) {
         Optional<Account> userOptional = accountRepository.findByUsername(username);
         return accountMapper.toDto(userOptional.get());

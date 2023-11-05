@@ -12,13 +12,11 @@ import java.util.Optional;
 @Transactional
 public abstract class BaseService<Repository extends BaseRepository<Entity> & JpaRepository<Entity, ?>, DTO extends BaseDTO, Entity extends BaseEntity> {
 
-    public abstract DTO create(DTO dto);
+    public abstract void save(Entity entity);
 
-    public abstract DTO update(DTO dto);
+    public abstract DTO getDetails(Long id);
 
-    public abstract Optional<DTO> getDetails(Long id);
-
-    public abstract DTO delete(DTO dto);
+    public abstract boolean deleteById(Long id);
 
     public abstract List<DTO> findAll();
 
