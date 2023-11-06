@@ -1,7 +1,8 @@
-package com.example.loverbackend.service;
+package com.example.loverbackend.service.impl;
 
 import com.example.loverbackend.model.City;
 import com.example.loverbackend.repository.CityRepository;
+import com.example.loverbackend.service.ICityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

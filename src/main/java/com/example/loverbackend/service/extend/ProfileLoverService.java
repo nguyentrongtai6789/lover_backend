@@ -1,9 +1,10 @@
-package com.example.loverbackend.service;
+package com.example.loverbackend.service.extend;
 
 import com.example.loverbackend.dto.ProfileLoverDTO;
 import com.example.loverbackend.mapper.ProfileLoverMapper;
 import com.example.loverbackend.model.ProfileLover;
 import com.example.loverbackend.repository.ProfileLoverRepository;
+import com.example.loverbackend.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProfileLoverService extends BaseService <ProfileLoverRepository, ProfileLoverDTO, ProfileLover>{
+public class ProfileLoverService extends BaseService<ProfileLoverRepository, ProfileLoverDTO, ProfileLover> {
     @Autowired
     private ProfileLoverRepository profileLoverRepository;
     @Autowired

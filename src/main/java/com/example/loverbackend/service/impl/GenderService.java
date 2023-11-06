@@ -1,7 +1,8 @@
-package com.example.loverbackend.service;
+package com.example.loverbackend.service.impl;
 
 import com.example.loverbackend.model.Gender;
 import com.example.loverbackend.repository.GenderRepository;
+import com.example.loverbackend.service.IGenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

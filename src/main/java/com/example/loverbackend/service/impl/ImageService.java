@@ -1,7 +1,8 @@
-package com.example.loverbackend.service;
+package com.example.loverbackend.service.impl;
 
 import com.example.loverbackend.model.Image;
 import com.example.loverbackend.repository.ImageRepository;
+import com.example.loverbackend.service.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,10 @@
-package com.example.loverbackend.service;
+package com.example.loverbackend.service.extend;
 
 import com.example.loverbackend.dto.BillDTO;
 import com.example.loverbackend.mapper.BillMapper;
 import com.example.loverbackend.model.Bill;
 import com.example.loverbackend.repository.BillRepository;
+import com.example.loverbackend.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

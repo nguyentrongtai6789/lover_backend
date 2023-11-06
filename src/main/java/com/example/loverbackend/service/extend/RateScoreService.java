@@ -1,9 +1,10 @@
-package com.example.loverbackend.service;
+package com.example.loverbackend.service.extend;
 
 import com.example.loverbackend.dto.RateScoreDTO;
 import com.example.loverbackend.mapper.RateScoreMapper;
 import com.example.loverbackend.model.RateScore;
 import com.example.loverbackend.repository.RateScoreRepository;
+import com.example.loverbackend.service.BaseService;
 import org.aspectj.apache.bcel.classfile.Module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

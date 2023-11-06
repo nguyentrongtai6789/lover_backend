@@ -4,7 +4,7 @@ import com.example.loverbackend.dto.AccountDTO;
 import com.example.loverbackend.model.Account;
 import com.example.loverbackend.security.jwt.JwtResponse;
 import com.example.loverbackend.security.jwt.JwtService;
-import com.example.loverbackend.service.AccountService;
+import com.example.loverbackend.service.extend.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
