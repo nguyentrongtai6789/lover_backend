@@ -1,8 +1,9 @@
-package com.example.loverbackend.service;
+package com.example.loverbackend.service.impl;
 
 import com.example.loverbackend.model.Country;
 import com.example.loverbackend.model.FreeService;
 import com.example.loverbackend.repository.FreeServiceRepository;
+import com.example.loverbackend.service.IFreeServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class FreeServiceService implements IFreeServiceService{
+public class FreeServiceService implements IFreeServiceService {
     @Autowired
     private FreeServiceRepository freeServiceRepository;
     @Override

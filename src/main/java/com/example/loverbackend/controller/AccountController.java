@@ -4,7 +4,7 @@ import com.example.loverbackend.dto.AccountDTO;
 import com.example.loverbackend.model.Account;
 import com.example.loverbackend.security.jwt.JwtResponse;
 import com.example.loverbackend.security.jwt.JwtService;
-import com.example.loverbackend.service.AccountService;
+import com.example.loverbackend.service.impl.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +49,7 @@ public class AccountController {
     public ResponseEntity<List<AccountDTO>> getAllAccount() {
         return new ResponseEntity<>(accountService.findAll(), HttpStatus.OK);
     }
+
 //    @RequestMapping(value = "/register", method = RequestMethod.POST)
 //    public ResponseEntity<?> register(@RequestBody AccountDTO account) {
 //        String password = passwordEncoder.encode(account.getPassword());

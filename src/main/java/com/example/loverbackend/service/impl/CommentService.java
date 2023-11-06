@@ -1,9 +1,10 @@
-package com.example.loverbackend.service;
+package com.example.loverbackend.service.impl;
 
 import com.example.loverbackend.dto.CommentDTO;
 import com.example.loverbackend.mapper.CommentMapper;
 import com.example.loverbackend.model.Comment;
 import com.example.loverbackend.repository.CommentRepository;
+import com.example.loverbackend.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

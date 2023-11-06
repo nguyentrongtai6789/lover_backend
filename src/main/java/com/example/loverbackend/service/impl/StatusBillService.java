@@ -1,7 +1,8 @@
-package com.example.loverbackend.service;
+package com.example.loverbackend.service.impl;
 
 import com.example.loverbackend.model.StatusBill;
 import com.example.loverbackend.repository.StatusBillRepository;
+import com.example.loverbackend.service.IStatusBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class StatusBillService implements IStatusBillService{
+public class StatusBillService implements IStatusBillService {
     @Autowired
     private StatusBillRepository statusBillRepository;
     @Override

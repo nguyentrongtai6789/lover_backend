@@ -1,9 +1,10 @@
-package com.example.loverbackend.service;
+package com.example.loverbackend.service.impl;
 
 import com.example.loverbackend.dto.ProfileUserDTO;
 import com.example.loverbackend.mapper.ProfileUserMapper;
 import com.example.loverbackend.model.ProfileUser;
 import com.example.loverbackend.repository.ProfileUserRepository;
+import com.example.loverbackend.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
