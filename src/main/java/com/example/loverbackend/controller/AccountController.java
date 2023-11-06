@@ -49,6 +49,7 @@ public class AccountController {
     public ResponseEntity<List<AccountDTO>> getAllAccount() {
         return new ResponseEntity<>(accountService.findAll(), HttpStatus.OK);
     }
+
 //    @RequestMapping(value = "/register", method = RequestMethod.POST)
 //    public ResponseEntity<?> register(@RequestBody AccountDTO account) {
 //        String password = passwordEncoder.encode(account.getPassword());
