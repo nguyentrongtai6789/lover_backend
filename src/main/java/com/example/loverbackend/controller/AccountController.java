@@ -49,16 +49,10 @@ public class AccountController {
     public ResponseEntity<List<AccountDTO>> getAllAccount() {
         return new ResponseEntity<>(accountService.findAll(), HttpStatus.OK);
     }
+    @PostMapping("/sendCodeToEmail")
+    public ResponseEntity<?> registerNewAccount(@RequestBody Account account) {
+        accountService.sendEmail(account);
+        return new ResponseEntity<>("ok", HttpStatus.OK);
+    }
 
-//    @RequestMapping(value = "/register", method = RequestMethod.POST)
-//    public ResponseEntity<?> register(@RequestBody AccountDTO account) {
-//        String password = passwordEncoder.encode(account.getPassword());
-//        account.setPassword(password);
-//        boolean check = accountService.create(account);
-//        if (check) {
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
 }
