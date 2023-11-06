@@ -1,4 +1,4 @@
-package com.example.loverbackend.service.impl;
+package com.example.loverbackend.service.extend;
 
 import com.example.loverbackend.dto.ProfileUserDTO;
 import com.example.loverbackend.mapper.ProfileUserMapper;
