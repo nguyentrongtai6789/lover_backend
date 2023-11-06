@@ -31,6 +31,7 @@ public class AccountService extends BaseService<AccountRepository, AccountDTO, A
     private AccountMapper accountMapper;
     @Autowired
     private JavaMailSender javaMailSender;
+    public static String randomCodeSendToEmail;
 
     @Override
     public void save(Account account) {
@@ -77,12 +78,14 @@ public class AccountService extends BaseService<AccountRepository, AccountDTO, A
         Optional<Account> userOptional = accountRepository.findByUsername(username);
         return accountMapper.toDto(userOptional.get());
     }
-    public void sendEmail(Account account) {
+
+    public void sendEmail(String email) {
         Random randomCode = new Random();
         int randomNum = randomCode.nextInt(900000) + 100000;
-        String to = account.getEmail();
+        String to = email;
         String subject = "ĐĂNG KÍ TÀI KHOẢN ỨNG DỤNG DUAL";
         String text = String.valueOf(randomNum);
+        randomCodeSendToEmail = text;
         String content = "Xin Chào ...!\n" +
                 "Bạn hoặc ai đó đã dùng email này để đăng ký tài khoản ở DUAL\n" +
                 "\n" +
@@ -92,10 +95,23 @@ public class AccountService extends BaseService<AccountRepository, AccountDTO, A
                 " + Phone  : (+084)088.888.888\n" +
                 " + Email  : fc.blue.codegym.vn@gmail.com\n" +
                 " + Address: Lô TT-04 Số 23 Khu Đô Thị MonCity\n";
-        SimpleMailMessage simpleMailMessage =new SimpleMailMessage();
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo(to);
         simpleMailMessage.setSubject(subject);
         simpleMailMessage.setText(content);
         javaMailSender.send(simpleMailMessage);
+    }
+
+    public boolean checkEmailExisted(String email) {
+        List<Account> accounts = accountRepository.findAll();
+        for (Account account : accounts) {
+            if (account.getEmail().equals(email)) {
+                return true; // nếu email đã tổn tại trả về true
+            }
+        }
+        return false;
+    }
+    public boolean checkUsernameExisted() {
+        return true;
     }
 }

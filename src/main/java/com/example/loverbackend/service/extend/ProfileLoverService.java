@@ -21,7 +21,6 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     public void save(ProfileLover profileLover) {
         profileLoverRepository.save(profileLover);
     }
-
     @Override
     public ProfileLoverDTO getDetails(Long id) {
         Optional<ProfileLover> profileLoverOptional = profileLoverRepository.findById(id);
