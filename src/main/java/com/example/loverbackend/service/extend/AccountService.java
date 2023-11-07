@@ -111,7 +111,25 @@ public class AccountService extends BaseService<AccountRepository, AccountDTO, A
         }
         return false;
     }
-    public boolean checkUsernameExisted() {
-        return true;
+
+    public boolean checkUsernameExisted(String username) {
+        List<Account> accounts = accountRepository.findAll();
+        for (Account account : accounts) {
+            if (account.getUsername().equals(username)) {
+                return true;
+
+            }
+        }
+        return false;
+    }
+
+    public boolean checkNicknameExisted(String nickname) {
+        List<Account> accounts = accountRepository.findAll();
+        for (Account account : accounts) {
+            if (account.getNickname().equals(nickname)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

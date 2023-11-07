@@ -77,6 +77,12 @@ public class AccountController {
     @PostMapping("/createNewAccount/{codeEmailVerification}")
     public ResponseEntity<?> createNewAccount(@RequestBody Account account, @PathVariable String codeEmailVerification) {
         if (codeEmailVerification.equals(AccountService.randomCodeSendToEmail)) {
+            if (accountService.checkNicknameExisted(account.getNickname())) {
+                return new ResponseEntity<>("Nickname này đã được sử dụng!", HttpStatus.OK);
+            }
+            if (accountService.checkUsernameExisted(account.getUsername())) {
+                return new ResponseEntity<>("Username này đã được sử dụng!", HttpStatus.OK);
+            }
             // set role mặc định cho account đăng kí là ROLE_USER:
             Set<Role> roleSet = new HashSet<>();
             List<RoleDTO> roleDTOs = roleService.findAll();
