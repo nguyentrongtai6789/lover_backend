@@ -78,7 +78,9 @@ public class AccountService extends BaseService<AccountRepository, AccountDTO, A
         Optional<Account> userOptional = accountRepository.findByUsername(username);
         return accountMapper.toDto(userOptional.get());
     }
-
+    public Account accountFindByUsername(String username) {
+        return accountRepository.findByUsername(username).get();
+    }
     public void sendEmail(String email) {
         Random randomCode = new Random();
         int randomNum = randomCode.nextInt(900000) + 100000;
@@ -131,5 +133,8 @@ public class AccountService extends BaseService<AccountRepository, AccountDTO, A
             }
         }
         return false;
+    }
+    public Account findByEmail(String email) {
+        return accountRepository.findByEmail(email);
     }
 }

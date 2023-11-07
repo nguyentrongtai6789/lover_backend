@@ -73,6 +73,22 @@ public class AccountController {
         accountService.sendEmail(email);
         return new ResponseEntity<>("Mã xác nhận đã gửi đến email của bạn!", HttpStatus.OK);
     }
+    @PostMapping("/sendCodeToEmail2/{email}")
+    public ResponseEntity<?> sendCode2(@PathVariable String email) {
+        accountService.sendEmail(email);
+        return new ResponseEntity<>("Mã xác nhận đã gửi đến email của bạn!", HttpStatus.OK);
+    }
+    @PostMapping("/changePassword/{codeEmailVerification}")
+    public ResponseEntity<?> changePassword(@RequestBody Account account, @PathVariable String codeEmailVerification) {
+        if (codeEmailVerification.equals(AccountService.randomCodeSendToEmail)) {
+            Account account1 = accountService.findByEmail(account.getEmail());
+            account1.setPassword(passwordEncoder.encode(account.getPassword()));
+            accountService.save(account1);
+            return new ResponseEntity<>("Đổi mật khẩu thành công!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Mã xác nhận không đúng!", HttpStatus.OK);
+        }
+    }
 
     @PostMapping("/createNewAccount/{codeEmailVerification}")
     public ResponseEntity<?> createNewAccount(@RequestBody Account account, @PathVariable String codeEmailVerification) {
