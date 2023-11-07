@@ -1,6 +1,7 @@
 package com.example.loverbackend.service.extend;
 
 import com.example.loverbackend.dto.ProfileLoverDTO;
+import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.ProfileLoverMapper;
 import com.example.loverbackend.model.ProfileLover;
 import com.example.loverbackend.repository.ProfileLoverRepository;
@@ -17,6 +18,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     private ProfileLoverRepository profileLoverRepository;
     @Autowired
     private ProfileLoverMapper profileLoverMapper;
+    @Autowired
+    private AccountMapper accountMapper;
     @Override
     public void save(ProfileLover profileLover) {
         profileLoverRepository.save(profileLover);
@@ -26,7 +29,9 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     public ProfileLoverDTO getDetails(Long id) {
         Optional<ProfileLover> profileLoverOptional = profileLoverRepository.findById(id);
         if (!profileLoverOptional.equals(null)) {
-            return profileLoverMapper.toDto(profileLoverOptional.get());
+            ProfileLoverDTO profileLoverDTO = profileLoverMapper.toDto(profileLoverOptional.get());
+            profileLoverDTO.setAccountDTO(accountMapper.toDto(profileLoverOptional.get().getAccount()));
+            return profileLoverDTO;
         }
         return null;
     }
@@ -43,6 +48,15 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
 
     @Override
     public List<ProfileLoverDTO> findAll() {
-        return profileLoverMapper.toDto(profileLoverRepository.findAll());
+List<ProfileLover> profileLovers = profileLoverRepository.findAll();
+List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLovers);
+for (ProfileLover profileLover:profileLovers){
+    for (ProfileLoverDTO profileLoverDTO:profileLoverDTOS){
+        if (profileLoverDTO.getId().equals(profileLover.getId())){
+            profileLoverDTO.setAccountDTO(accountMapper.toDto(profileLover.getAccount()));
+        }
+    }
+}
+        return profileLoverDTOS;
     }
 }

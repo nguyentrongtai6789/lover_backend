@@ -13,6 +13,7 @@ public class ProfileLoverDTO extends BaseDTO {
     private LocalDate dateOfBirth;
     private Gender gender;
     private City city;
+    private String avatarImage;
     private List<Image> images; // list ảnh của lover
     private double height; // chiều cao
     private double weight; // cân nặng

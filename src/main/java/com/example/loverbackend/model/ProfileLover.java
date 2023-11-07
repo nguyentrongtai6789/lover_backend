@@ -19,6 +19,7 @@ public class ProfileLover extends BaseEntity {
     private Gender gender;
     @ManyToOne
     private City city;
+    private String avatarImage;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "profileLovers_images",
             joinColumns = {@JoinColumn(name = "id_profileLover")},
