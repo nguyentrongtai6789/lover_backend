@@ -62,6 +62,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
                 .antMatchers("/**").permitAll()
+                .antMatchers( "/api/login").permitAll()
+                .antMatchers( "/api/findAllAccounts").permitAll()
+                .antMatchers( "/api/sendCodeToEmail/**").permitAll()
+                .antMatchers( "/api/createNewAccount/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
