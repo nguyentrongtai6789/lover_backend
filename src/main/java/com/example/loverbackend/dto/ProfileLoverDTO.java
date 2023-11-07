@@ -11,6 +11,7 @@ import java.util.List;
 public class ProfileLoverDTO extends BaseDTO {
     private Long id;
     private LocalDate dateOfBirth;
+    private LocalDate createdAt;
     private Gender gender;
     private City city;
     private String avatarImage;

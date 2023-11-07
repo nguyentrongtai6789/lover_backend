@@ -42,4 +42,9 @@ public class ImageService implements IImageService {
     public List<Image> findAll() {
         return imageRepository.findAll();
     }
+
+    @Override
+    public List<Image> findAllByIdProfileLover(Long id) {
+        return imageRepository.findAllByProfileLoverId(id);
+    }
 }
