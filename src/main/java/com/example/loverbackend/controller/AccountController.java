@@ -99,6 +99,9 @@ public class AccountController {
             if (accountService.checkUsernameExisted(account.getUsername())) {
                 return new ResponseEntity<>("Username này đã được sử dụng!", HttpStatus.OK);
             }
+            if (accountService.checkEmailExisted(account.getEmail())) {
+                return new ResponseEntity<>("Email này đã được sử dụng!", HttpStatus.OK);
+            }
             // set role mặc định cho account đăng kí là ROLE_USER:
             Set<Role> roleSet = new HashSet<>();
             List<RoleDTO> roleDTOs = roleService.findAll();
