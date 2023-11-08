@@ -8,6 +8,7 @@ import com.example.loverbackend.model.Role;
 import com.example.loverbackend.security.jwt.JwtResponse;
 import com.example.loverbackend.security.jwt.JwtService;
 import com.example.loverbackend.service.extend.AccountService;
+import com.example.loverbackend.service.extend.ProfileUserService;
 import com.example.loverbackend.service.extend.RoleService;
 import javafx.scene.effect.SepiaTone;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,6 +50,8 @@ public class AccountController {
     private RoleService roleService;
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private ProfileUserService profileUserService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@RequestBody Account account) {
@@ -116,6 +121,9 @@ public class AccountController {
             account.setPassword(passwordEncoder.encode(account.getPassword()));
 //             create new account:
             accountService.save(account);
+            account.setCreatedAt(LocalDateTime.now());
+            // create new profile user:
+            profileUserService.createProfileUserWhenCreateAccount(account);
             return new ResponseEntity<>("Tạo tài khoản thành công!", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Mã xác nhận không đúng!", HttpStatus.OK);

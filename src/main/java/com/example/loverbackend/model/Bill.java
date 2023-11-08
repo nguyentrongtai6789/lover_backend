@@ -3,6 +3,7 @@ package com.example.loverbackend.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -12,8 +13,8 @@ public class Bill extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalTime timeStart; // thời gian bắt đầu thuê
-    private LocalTime timeEnd; // thời gian kết thúc thuê
+    private LocalDateTime timeStart; // thời gian bắt đầu thuê
+    private LocalDateTime timeEnd; // thời gian kết thúc thuê
     @ManyToOne
     private Account accountUser; // tài khoản người dùng thuê
     @ManyToOne

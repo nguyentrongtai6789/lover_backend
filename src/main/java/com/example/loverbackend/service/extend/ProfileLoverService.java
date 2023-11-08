@@ -7,6 +7,8 @@ import com.example.loverbackend.model.ProfileLover;
 import com.example.loverbackend.repository.ProfileLoverRepository;
 import com.example.loverbackend.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +22,12 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     private ProfileLoverMapper profileLoverMapper;
     @Autowired
     private AccountMapper accountMapper;
+
     @Override
     public void save(ProfileLover profileLover) {
         profileLoverRepository.save(profileLover);
     }
+
     @Override
     public ProfileLoverDTO getDetails(Long id) {
         Optional<ProfileLover> profileLoverOptional = profileLoverRepository.findById(id);
@@ -39,23 +43,24 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     public boolean deleteById(Long id) {
         Optional<ProfileLover> profileLoverOptional = profileLoverRepository.findById(id);
         if (!profileLoverOptional.equals(null)) {
-           profileLoverOptional.get().setIsActive(2);
-           return true;
+            profileLoverOptional.get().setIsActive(2);
+            return true;
         }
         return false;
     }
 
     @Override
     public List<ProfileLoverDTO> findAll() {
-List<ProfileLover> profileLovers = profileLoverRepository.findAll();
-List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLovers);
-for (ProfileLover profileLover:profileLovers){
-    for (ProfileLoverDTO profileLoverDTO:profileLoverDTOS){
-        if (profileLoverDTO.getId().equals(profileLover.getId())){
-            profileLoverDTO.setAccountDTO(accountMapper.toDto(profileLover.getAccount()));
+        List<ProfileLover> profileLovers = profileLoverRepository.findAll();
+        List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLovers);
+        for (ProfileLover profileLover : profileLovers) {
+            for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
+                if (profileLoverDTO.getId().equals(profileLover.getId())) {
+                    profileLoverDTO.setAccountDTO(accountMapper.toDto(profileLover.getAccount()));
+                }
+            }
         }
-    }
-}
         return profileLoverDTOS;
     }
+
 }

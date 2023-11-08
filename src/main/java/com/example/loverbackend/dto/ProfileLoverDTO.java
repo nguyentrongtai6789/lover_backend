@@ -4,6 +4,7 @@ import com.example.loverbackend.model.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
 public class ProfileLoverDTO extends BaseDTO {
     private Long id;
     private LocalDate dateOfBirth;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     private Gender gender;
     private City city;
     private String avatarImage;
