@@ -10,6 +10,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -23,7 +24,6 @@ public abstract class BaseEntity implements Serializable {
     @CreatedDate
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
-
     @LastModifiedDate
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
