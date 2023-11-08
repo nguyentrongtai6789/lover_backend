@@ -45,4 +45,13 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
     public List<ProfileUserDTO> findAll() {
         return profileUserMapper.toDto(profileUserRepository.findAll());
     }
+    public ProfileUserDTO findByIdAccount(Long id){
+        List<ProfileUserDTO> profileUserDTOList = profileUserMapper.toDto(profileUserRepository.findAll());
+        for (ProfileUserDTO profileUserDTO: profileUserDTOList){
+            if(profileUserDTO.getId().equals(id)){
+                return profileUserDTO;
+            }
+        }
+        return null;
+    }
 }
