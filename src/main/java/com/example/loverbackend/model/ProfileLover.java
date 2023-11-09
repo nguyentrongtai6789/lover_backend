@@ -20,6 +20,8 @@ public class ProfileLover extends BaseEntity {
     @ManyToOne
     private City city;
     private String avatarImage;
+    private String fullName;
+    private String citizenNumber; // số chứng minh nhân dân
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "profileLovers_images",
             joinColumns = {@JoinColumn(name = "id_profileLover")},

@@ -1,6 +1,8 @@
 package com.example.loverbackend.controller;
 
 import com.example.loverbackend.dto.ProfileLoverDTO;
+import com.example.loverbackend.mapper.AccountMapper;
+import com.example.loverbackend.mapper.ProfileLoverMapper;
 import com.example.loverbackend.model.ProfileLover;
 import com.example.loverbackend.service.extend.ProfileLoverService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,6 +21,10 @@ import java.util.Optional;
 public class ProfileLoverController {
     @Autowired
     ProfileLoverService profileLoverService;
+    @Autowired
+    ProfileLoverMapper profileLoverMapper;
+    @Autowired
+    AccountMapper accountMapper;
 
     @GetMapping
     public ResponseEntity<Iterable<?>> showList() {
@@ -35,7 +42,9 @@ public class ProfileLoverController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody ProfileLover profileLover) {
+    public ResponseEntity<?> save(@RequestBody ProfileLoverDTO profileLoverDTO) {
+        ProfileLover profileLover = profileLoverMapper.toEntity(profileLoverDTO);
+        profileLover.setAccount(accountMapper.toEntity(profileLoverDTO.getAccountDTO()));
         profileLoverService.save(profileLover);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -50,6 +59,10 @@ public class ProfileLoverController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+@GetMapping("/sortProfileLoversByMoneyDescending")
+    public ResponseEntity<Iterable<?>> SortProfileLoversByMoneyDescending(){
+        return new ResponseEntity<>(profileLoverService.sortProfileLoversByMoneyDescending(profileLoverService.findAll()),HttpStatus.OK);
 
+}
 
 }

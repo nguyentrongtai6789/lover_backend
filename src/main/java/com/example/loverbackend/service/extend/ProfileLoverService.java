@@ -1,6 +1,7 @@
 package com.example.loverbackend.service.extend;
 
 import com.example.loverbackend.dto.ProfileLoverDTO;
+import com.example.loverbackend.dto.ProfileLoverMoneyComparator;
 import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.ProfileLoverMapper;
 import com.example.loverbackend.model.ProfileLover;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,5 +64,9 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         }
         return profileLoverDTOS;
     }
+    public List<ProfileLoverDTO> sortProfileLoversByMoneyDescending(List<ProfileLoverDTO> lovers) {
+        return profileLoverRepository.sortProfileLoversByMoneyDescending(lovers);
+    }
+
 
 }
