@@ -3,16 +3,11 @@ package com.example.loverbackend.controller;
 import com.example.loverbackend.dto.ProfileLoverDTO;
 import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.ProfileLoverMapper;
-import com.example.loverbackend.model.ProfileLover;
 import com.example.loverbackend.service.extend.ProfileLoverService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -43,9 +38,7 @@ public class ProfileLoverController {
 
     @PostMapping
     public ResponseEntity<?> save(@RequestBody ProfileLoverDTO profileLoverDTO) {
-        ProfileLover profileLover = profileLoverMapper.toEntity(profileLoverDTO);
-        profileLover.setAccount(accountMapper.toEntity(profileLoverDTO.getAccountDTO()));
-        profileLoverService.save(profileLover);
+        profileLoverService.save(profileLoverMapper.toEntity(profileLoverDTO));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
