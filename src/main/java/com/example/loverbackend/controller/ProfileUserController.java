@@ -19,4 +19,10 @@ public class ProfileUserController {
     public ResponseEntity<ProfileUserDTO> findByIdAccount(@PathVariable Long id) {
         return new ResponseEntity<>(profileUserService.findByIdAccount(id), HttpStatus.OK);
     }
+
+    @PostMapping("/updateAvatarImage/{id}")
+    public ResponseEntity<?> updateAvatarImage(@RequestBody String urlAvatar, @PathVariable Long id) {
+        profileUserService.updateAvatar(urlAvatar, id);
+        return new ResponseEntity<>("Sửa ảnh thành công!", HttpStatus.OK);
+    }
 }
