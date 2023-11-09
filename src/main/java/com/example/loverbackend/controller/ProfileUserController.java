@@ -30,6 +30,6 @@ public class ProfileUserController {
     @PostMapping("/updateInformation")
     public ResponseEntity<ProfileUserDTO> updateInfo(@RequestBody ProfileUserDTO profileUserDTO) {
         profileUserService.updateInfo(profileUserDTO);
-        return new ResponseEntity<>(profileUserService.findByIdAccount(profileUserDTO.getAccountDTO().getId()), HttpStatus.OK);
+        return new ResponseEntity<>(profileUserService.findByIdAccount(profileUserDTO.getAccount().getId()), HttpStatus.OK);
     }
 }

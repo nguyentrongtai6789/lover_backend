@@ -23,7 +23,7 @@ public class ProfileLoverDTO extends BaseDTO {
     private String description; // mô tả thêm về lover
     private String requestToUser; // yêu cầu đối với người thuê
     private String facebookLink;
-    private AccountDTO accountDTO;
+    private AccountDTO account;
     private List<ServiceLover> serviceLovers; // danh sách các dịch vụ chính mà lover lựa chọn để cung cấp cho user
     private List<FreeService> freeServices; // danh sách các dịch vụ free mà lover lựa chọn để cung cấp cho user
     private List<VipService> vipServices; // danh sách các dịch vụ vip mà lover lựa chọn để cung cấp cho user

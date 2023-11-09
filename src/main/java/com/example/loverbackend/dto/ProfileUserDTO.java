@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Data
 public class ProfileUserDTO extends BaseDTO {
     private Long id;
-    private AccountDTO accountDTO;
+    private AccountDTO account;
     private String citizenNumber;
     private String lastName;
     private String firstName;

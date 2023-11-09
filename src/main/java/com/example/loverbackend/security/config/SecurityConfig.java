@@ -66,7 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/api/findAllAccounts").permitAll()
                 .antMatchers( "/api/sendCodeToEmail/**").permitAll()
                 .antMatchers( "/api/createNewAccount/**").permitAll()
-                .antMatchers( "/api/profileUser/**").hasAnyRole("USER")
+                .antMatchers( "/api/profileUser/**").hasAnyRole(new String[]{"LOVER", "USER"})
+                .antMatchers( "/api/profileLover/**").hasAnyRole("LOVER")
 //                .antMatchers("/api/blog/**").hasAnyRole(new String[]{"ADMIN", "USER"})
                 .anyRequest().authenticated()
                 .and().csrf().disable();
