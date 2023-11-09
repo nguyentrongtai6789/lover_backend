@@ -70,6 +70,7 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
                 ProfileUserDTO profileUserDTO = profileUserMapper.toDto(profileUser);
                 profileUserDTO.setCreateAt(profileUser.getCreatedAt());
                 profileUserDTO.setAccountDTO(accountDTO);
+                profileUserDTO.setUpdateAt(profileUser.getUpdatedAt());
                 return profileUserDTO;
             }
         }
@@ -81,6 +82,21 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
         for (ProfileUser profileUser : profileUsers) {
             if (profileUser.getAccount().getId() == idAccount) {
                 profileUser.setAvatarImage(url);
+                break;
+            }
+        }
+    }
+
+    public void updateInfo(ProfileUserDTO profileUserDTO) {
+        List<ProfileUser> profileUsers = profileUserRepository.findAll();
+        for (ProfileUser profileUser : profileUsers) {
+            if (profileUser.getId() == profileUserDTO.getId()) {
+                profileUser.setCitizenNumber(profileUserDTO.getCitizenNumber());
+                profileUser.setLastName(profileUserDTO.getLastName());
+                profileUser.setFirstName(profileUserDTO.getFirstName());
+                profileUser.setPhoneNumber(profileUserDTO.getPhoneNumber());
+                profileUser.setUpdatedAt(LocalDateTime.now());
+                profileUserRepository.save(profileUser);
                 break;
             }
         }

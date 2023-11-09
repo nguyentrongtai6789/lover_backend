@@ -14,4 +14,5 @@ public class ProfileUserDTO extends BaseDTO {
     private String avatarImage;
     private String phoneNumber;
     private LocalDateTime createAt;
+    private LocalDateTime updateAt;
 }
