@@ -32,12 +32,7 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     @Override
     public ProfileLoverDTO getDetails(Long id) {
         Optional<ProfileLover> profileLoverOptional = profileLoverRepository.findById(id);
-        if (!profileLoverOptional.equals(null)) {
-            ProfileLoverDTO profileLoverDTO = profileLoverMapper.toDto(profileLoverOptional.get());
-            profileLoverDTO.setAccountDTO(accountMapper.toDto(profileLoverOptional.get().getAccount()));
-            return profileLoverDTO;
-        }
-        return null;
+        return profileLoverMapper.toDto(profileLoverOptional.orElse(null));
     }
 
     @Override
