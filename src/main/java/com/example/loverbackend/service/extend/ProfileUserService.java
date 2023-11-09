@@ -23,6 +23,7 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
     private ProfileUserMapper profileUserMapper;
     @Autowired
     private AccountMapper accountMapper;
+
     @Override
     public void save(ProfileUser profileUser) {
         profileUserRepository.save(profileUser);
@@ -51,6 +52,7 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
     public List<ProfileUserDTO> findAll() {
         return profileUserMapper.toDto(profileUserRepository.findAll());
     }
+
     public void createProfileUserWhenCreateAccount(Account account) {
         ProfileUser profileUser = new ProfileUser();
         profileUser.setCreatedAt(LocalDateTime.now());
@@ -59,16 +61,40 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
         profileUser.setAvatarImage("https://firebasestorage.googleapis.com/v0/b/fir-upload-react-824b4.appspot.com/o/images%2Fc6e56503cfdd87da299f72dc416023d4.jpg?alt=media&token=707a56ef-9402-4ec2-8345-2057f928b3c6");
         profileUserRepository.save(profileUser);
     }
+
     public ProfileUserDTO findByIdAccount(Long id) {
         List<ProfileUser> profileUsers = profileUserRepository.findAll();
-        for (ProfileUser profileUser: profileUsers) {
+        for (ProfileUser profileUser : profileUsers) {
             if (profileUser.getAccount().getId() == id) {
-                AccountDTO accountDTO = accountMapper.toDto(profileUser.getAccount());
                 ProfileUserDTO profileUserDTO = profileUserMapper.toDto(profileUser);
-                profileUserDTO.setAccountDTO(accountDTO);
                 return profileUserDTO;
             }
         }
         return null;
+    }
+
+    public void updateAvatar(String url, Long idAccount) {
+        List<ProfileUser> profileUsers = profileUserRepository.findAll();
+        for (ProfileUser profileUser : profileUsers) {
+            if (profileUser.getAccount().getId() == idAccount) {
+                profileUser.setAvatarImage(url);
+                break;
+            }
+        }
+    }
+
+    public void updateInfo(ProfileUserDTO profileUserDTO) {
+        List<ProfileUser> profileUsers = profileUserRepository.findAll();
+        for (ProfileUser profileUser : profileUsers) {
+            if (profileUser.getId() == profileUserDTO.getId()) {
+                profileUser.setCitizenNumber(profileUserDTO.getCitizenNumber());
+                profileUser.setLastName(profileUserDTO.getLastName());
+                profileUser.setFirstName(profileUserDTO.getFirstName());
+                profileUser.setPhoneNumber(profileUserDTO.getPhoneNumber());
+                profileUser.setUpdatedAt(LocalDateTime.now());
+                profileUserRepository.save(profileUser);
+                break;
+            }
+        }
     }
 }

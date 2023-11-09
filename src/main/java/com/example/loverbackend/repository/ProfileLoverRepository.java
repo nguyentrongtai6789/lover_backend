@@ -3,6 +3,8 @@ package com.example.loverbackend.repository;
 import com.example.loverbackend.dto.ProfileLoverDTO;
 import com.example.loverbackend.dto.ProfileLoverMoneyComparator;
 import com.example.loverbackend.model.ProfileLover;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;
