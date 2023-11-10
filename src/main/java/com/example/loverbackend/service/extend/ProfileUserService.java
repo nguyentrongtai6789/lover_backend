@@ -67,6 +67,8 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
         for (ProfileUser profileUser : profileUsers) {
             if (profileUser.getAccount().getId() == id) {
                 ProfileUserDTO profileUserDTO = profileUserMapper.toDto(profileUser);
+                profileUserDTO.setCreateAt(profileUser.getCreatedAt());
+                profileUserDTO.setUpdateAt(profileUser.getUpdatedAt());
                 return profileUserDTO;
             }
         }
