@@ -61,13 +61,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/api/**");
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-//                .antMatchers( "/api/login").permitAll()
-//                .antMatchers( "/api/findAllAccounts").permitAll()
-//                .antMatchers( "/api/sendCodeToEmail/**").permitAll()
-//                .antMatchers( "/api/createNewAccount/**").permitAll()
-//                .antMatchers( "/api/profileUser/**").hasAnyRole("USER")
+                                .antMatchers("/**").permitAll()
+                .antMatchers( "/api/login").permitAll()
+                .antMatchers( "/api/findAllAccounts").permitAll()
+                .antMatchers( "/api/sendCodeToEmail/**").permitAll()
+                .antMatchers( "/api/createNewAccount/**").permitAll()
+                .antMatchers( "/api/profileUser/**").hasAnyRole(new String[]{"LOVER", "USER"})
+                .antMatchers( "/api/profileLover/findAll").permitAll()
+                .antMatchers( "/api/genders/**").permitAll()
+                .antMatchers( "/api/countrys/**").permitAll()
+                .antMatchers( "/api/citys/**").permitAll()
+                .antMatchers( "/api/profileLover").permitAll()
+                .antMatchers( "/api/profileLover/sortProfileLoversByMoneyDescending").permitAll()
+
 //                .antMatchers("/api/blog/**").hasAnyRole(new String[]{"ADMIN", "USER"})
+                .antMatchers("/api/vipService/findAll").permitAll()
+                .antMatchers("/api/freeService/findAll").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
