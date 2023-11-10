@@ -44,7 +44,7 @@ public class ProfileLoverController {
     @PostMapping
     public ResponseEntity<?> save(@RequestBody ProfileLoverDTO profileLoverDTO) {
         ProfileLover profileLover = profileLoverMapper.toEntity(profileLoverDTO);
-        profileLover.setAccount(accountMapper.toEntity(profileLoverDTO.getAccountDTO()));
+        profileLover.setAccount(accountMapper.toEntity(profileLoverDTO.getAccount()));
         profileLoverService.save(profileLover);
         return new ResponseEntity<>(HttpStatus.OK);
     }
