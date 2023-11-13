@@ -10,10 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -21,13 +20,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProfileLoverController2 {
     @Autowired
     private ProfileLoverService profileLoverService;
+
     @GetMapping("/findAll")
-    public ResponseEntity<Page<ProfileLoverDTO>> findAll(@PageableDefault(size = 4) Pageable pageable) {
-        return new ResponseEntity<>(profileLoverService.findAllByPage(pageable), HttpStatus.OK);
+    public ResponseEntity<List<ProfileLoverDTO>> findAll() {
+        return new ResponseEntity<>(profileLoverService.findAll(), HttpStatus.OK);
     }
-    @GetMapping("/getTotalPage")
-    public ResponseEntity<String> getTotalPage(@PageableDefault(size = 4) Pageable pageable) {
-        int totalPage = profileLoverService.getTotalPage(pageable);
-        return new ResponseEntity<>("" + totalPage, HttpStatus.OK );
+
+    @GetMapping("/findAllByNickname/{name}")
+    public ResponseEntity<List<ProfileLoverDTO>> findAllByNickname(@PathVariable String name) {
+        return new ResponseEntity<>(profileLoverService.findAllByNameContaining(name), HttpStatus.OK);
+    }
+
+    @GetMapping("/findAllByVipService/{id}")
+    public ResponseEntity<List<ProfileLoverDTO>> findAllByVipService(@PathVariable Long id) {
+        return new ResponseEntity<>(profileLoverService.findAllByVipService(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/findAllByFreeService/{id}")
+    public ResponseEntity<List<ProfileLoverDTO>> findAllByFreeService(@PathVariable Long id) {
+        return new ResponseEntity<>(profileLoverService.findAllByFreeService(id), HttpStatus.OK);
     }
 }

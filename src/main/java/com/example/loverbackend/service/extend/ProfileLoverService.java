@@ -3,6 +3,7 @@ package com.example.loverbackend.service.extend;
 import com.example.loverbackend.dto.ProfileLoverDTO;
 import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.ProfileLoverMapper;
+import com.example.loverbackend.model.Account;
 import com.example.loverbackend.model.ProfileLover;
 import com.example.loverbackend.repository.ProfileLoverRepository;
 import com.example.loverbackend.service.BaseService;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +25,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     private ProfileLoverMapper profileLoverMapper;
     @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private AccountService accountService;
 
     @Override
     public void save(ProfileLover profileLover) {
@@ -50,18 +54,24 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         List<ProfileLover> profileLovers = profileLoverRepository.findAll();
         return profileLoverMapper.toDto(profileLovers);
     }
-    public Page<ProfileLoverDTO> findAllByPage(Pageable pageable) {
-        List<ProfileLover> profileLovers = profileLoverRepository.findAll(pageable).toList();
-        return new PageImpl<>(profileLoverMapper.toDto(profileLovers),
-                pageable, profileLoverMapper.toDto(profileLovers).size());
-    }
-    public int getTotalPage(Pageable pageable) {
-        Page<ProfileLover> profileLovers = profileLoverRepository.findAll(pageable);
-        return profileLovers.getTotalPages();
-    }
+
     public List<ProfileLoverDTO> sortProfileLoversByMoneyDescending(List<ProfileLoverDTO> lovers) {
         return profileLoverRepository.sortProfileLoversByMoneyDescending(lovers);
     }
 
-
+    public List<ProfileLoverDTO> findAllByNameContaining(String name) {
+        List<ProfileLover> profileLovers = profileLoverRepository.searchByAccountNameContaining("%" + name + "%");
+        List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLovers);
+        return profileLoverDTOS;
+    }
+    public List<ProfileLoverDTO> findAllByVipService(Long id){
+        List<ProfileLover> profileLovers = profileLoverRepository.searchByIdVipService(id);
+        List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLovers);
+        return profileLoverDTOS;
+    };
+    public List<ProfileLoverDTO> findAllByFreeService(Long id) {
+        List<ProfileLover> profileLovers = profileLoverRepository.searchByFreeService(id);
+        List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLovers);
+        return profileLoverDTOS;
+    }
 }

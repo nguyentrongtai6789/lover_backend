@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/api/**");
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
+//                .antMatchers("/**").permitAll()
                 .antMatchers( "/api/login").permitAll()
                 .antMatchers( "/api/findAllAccounts").permitAll()
                 .antMatchers( "/api/sendCodeToEmail/**").permitAll()
@@ -74,6 +74,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/vipService/findAll").permitAll()
                 .antMatchers("/api/freeService/findAll").permitAll()
                 .antMatchers("/api/serviceLover/findAll").permitAll()
+                .antMatchers("/api/profileLover/getTotalPageFindByName/**").permitAll()
+                .antMatchers("/api/profileLover/findAllByNickname/**").permitAll()
+                .antMatchers("/api/profileLover/findAllByVipService/**").permitAll()
+                .antMatchers("/api/profileLover/findAllByFreeService/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
