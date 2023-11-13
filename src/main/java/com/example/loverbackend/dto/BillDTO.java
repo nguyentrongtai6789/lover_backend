@@ -5,14 +5,15 @@ import com.example.loverbackend.model.StatusBill;
 import com.example.loverbackend.model.VipService;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
 @Data
 public class BillDTO extends BaseDTO {
     private Long id;
-    private LocalTime timeStart;
-    private LocalTime timeEnd;
+    private LocalDateTime timeStart;
+    private LocalDateTime timeEnd;
     private AccountDTO accountDTOUser;
     private AccountDTO accountDTOLover;
     private List<FreeService> freeServices;

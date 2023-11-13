@@ -41,4 +41,9 @@ public class CityService implements ICityService {
     public List<City> findAll() {
         return cityRepository.findAll();
     }
+
+    @Override
+    public List<City> findAllByCountryId(Long id) {
+        return cityRepository.findAllByCountryId(id);
+    }
 }

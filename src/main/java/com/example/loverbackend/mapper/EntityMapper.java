@@ -3,6 +3,7 @@ package com.example.loverbackend.mapper;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -22,7 +23,6 @@ public interface EntityMapper<D, E> {
     List<E> toEntity(List<D> dtoList);
 
     List<D> toDto(List<E> entityList);
-
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateFromDTO(D dto, @MappingTarget E entity);
 

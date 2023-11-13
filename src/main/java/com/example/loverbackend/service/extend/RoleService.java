@@ -48,5 +48,4 @@ public class RoleService extends BaseService<RoleRepository, RoleDTO, Role> {
         return roleMapper.toDto(roles);
     }
 
-
 }

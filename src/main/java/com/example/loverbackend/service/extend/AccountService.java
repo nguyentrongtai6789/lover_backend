@@ -8,6 +8,8 @@ import com.example.loverbackend.repository.AccountRepository;
 import com.example.loverbackend.security.AccountPrinciple;
 import com.example.loverbackend.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class AccountService extends BaseService<AccountRepository, AccountDTO, Account> implements UserDetailsService {
@@ -26,6 +29,9 @@ public class AccountService extends BaseService<AccountRepository, AccountDTO, A
 
     @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private JavaMailSender javaMailSender;
+    public static String randomCodeSendToEmail;
 
     @Override
     public void save(Account account) {
@@ -71,6 +77,65 @@ public class AccountService extends BaseService<AccountRepository, AccountDTO, A
     public AccountDTO findByUsername(String username) {
         Optional<Account> userOptional = accountRepository.findByUsername(username);
         return accountMapper.toDto(userOptional.get());
+    }
+    public Account accountFindByUsername(String username) {
+        return accountRepository.findByUsername(username).get();
+    }
+    public void sendEmail(String email) {
+        Random randomCode = new Random();
+        int randomNum = randomCode.nextInt(900000) + 100000;
+        String to = email;
+        String subject = "ĐĂNG KÍ TÀI KHOẢN ỨNG DỤNG DUAL";
+        String text = String.valueOf(randomNum);
+        randomCodeSendToEmail = text;
+        String content = "Xin Chào ...!\n" +
+                "Bạn hoặc ai đó đã dùng email này để đăng ký tài khoản ở DUAL\n" +
+                "\n" +
+                "MÃ XÁC NHẬN CỦA BẠN LÀ  : " + text + "\n" +
+                "\n" +
+                "--------------------------------------\n" +
+                " + Phone  : (+084)088.888.888\n" +
+                " + Email  : fc.blue.codegym.vn@gmail.com\n" +
+                " + Address: Lô TT-04 Số 23 Khu Đô Thị MonCity\n";
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(to);
+        simpleMailMessage.setSubject(subject);
+        simpleMailMessage.setText(content);
+        javaMailSender.send(simpleMailMessage);
+    }
+
+    public boolean checkEmailExisted(String email) {
+        List<Account> accounts = accountRepository.findAll();
+        for (Account account : accounts) {
+            if (account.getEmail().equals(email)) {
+                return true; // nếu email đã tổn tại trả về true
+            }
+        }
+        return false;
+    }
+
+    public boolean checkUsernameExisted(String username) {
+        List<Account> accounts = accountRepository.findAll();
+        for (Account account : accounts) {
+            if (account.getUsername().equals(username)) {
+                return true;
+
+            }
+        }
+        return false;
+    }
+
+    public boolean checkNicknameExisted(String nickname) {
+        List<Account> accounts = accountRepository.findAll();
+        for (Account account : accounts) {
+            if (account.getNickname().equals(nickname)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public Account findByEmail(String email) {
+        return accountRepository.findByEmail(email);
     }
 
 }

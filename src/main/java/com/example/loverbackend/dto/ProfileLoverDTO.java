@@ -4,6 +4,7 @@ import com.example.loverbackend.model.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -11,8 +12,12 @@ import java.util.List;
 public class ProfileLoverDTO extends BaseDTO {
     private Long id;
     private LocalDate dateOfBirth;
+    private LocalDateTime createdAt;
     private Gender gender;
     private City city;
+    private String avatarImage;
+    private String fullName;
+    private String citizenNumber;
     private List<Image> images; // list ảnh của lover
     private double height; // chiều cao
     private double weight; // cân nặng
@@ -20,7 +25,7 @@ public class ProfileLoverDTO extends BaseDTO {
     private String description; // mô tả thêm về lover
     private String requestToUser; // yêu cầu đối với người thuê
     private String facebookLink;
-    private AccountDTO accountDTO;
+    private AccountDTO account;
     private List<ServiceLover> serviceLovers; // danh sách các dịch vụ chính mà lover lựa chọn để cung cấp cho user
     private List<FreeService> freeServices; // danh sách các dịch vụ free mà lover lựa chọn để cung cấp cho user
     private List<VipService> vipServices; // danh sách các dịch vụ vip mà lover lựa chọn để cung cấp cho user
