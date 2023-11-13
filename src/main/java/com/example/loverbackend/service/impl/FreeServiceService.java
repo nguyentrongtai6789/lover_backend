@@ -42,4 +42,8 @@ public class FreeServiceService implements IFreeServiceService {
     public List<FreeService> findAll() {
         return freeServiceRepository.findAll();
     }
+    @Override
+    public List<FreeService> getFreeServicesByIds(List<Long> FreeServicesByIds) {
+        return freeServiceRepository.findAllById(FreeServicesByIds);
+    }
 }
