@@ -22,11 +22,6 @@ public class ProfileLover extends BaseEntity {
     private String avatarImage;
     private String fullName;
     private String citizenNumber; // số chứng minh nhân dân
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "profileLovers_images",
-            joinColumns = {@JoinColumn(name = "id_profileLover")},
-            inverseJoinColumns = {@JoinColumn(name = "id_image")})
-    private List<Image> images; // list ảnh của lover
     private double height; // chiều cao
     private double weight; // cân nặng
     private String hobby; // sở thích

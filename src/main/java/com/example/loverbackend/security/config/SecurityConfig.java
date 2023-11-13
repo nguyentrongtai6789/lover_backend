@@ -77,6 +77,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/profileLover/findAllByNickname/**").permitAll()
                 .antMatchers("/api/profileLover/findAllByVipService/**").permitAll()
                 .antMatchers("/api/profileLover/findAllByFreeService/**").permitAll()
+                .antMatchers("/api/profileLover/findAllByFreeService/**").permitAll()
+                .antMatchers("/api/profileLover/findById/**").permitAll()
+                .antMatchers("/api/image/findAllByIdProfileLover/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
