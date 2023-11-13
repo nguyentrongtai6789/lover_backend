@@ -1,5 +1,6 @@
 package com.example.loverbackend.service.impl;
 
+import com.example.loverbackend.model.FreeService;
 import com.example.loverbackend.model.ServiceLover;
 import com.example.loverbackend.repository.ServiceLoverRepository;
 import com.example.loverbackend.service.IServiceLoverService;
@@ -41,4 +42,11 @@ public class ServiceLoverService implements IServiceLoverService {
     public List<ServiceLover> findAll() {
         return serviceLoverRepository.findAll();
     }
+
+    @Override
+    public List<ServiceLover> getServicesByIds(List<Long> ServicesByIds) {
+        return serviceLoverRepository.findAllById(ServicesByIds);
+    }
 }
+
+

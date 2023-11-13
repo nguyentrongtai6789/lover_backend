@@ -3,11 +3,20 @@ package com.example.loverbackend.controller;
 import com.example.loverbackend.dto.ProfileLoverDTO;
 import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.ProfileLoverMapper;
+import com.example.loverbackend.model.FreeService;
+import com.example.loverbackend.model.ProfileLover;
+import com.example.loverbackend.model.ServiceLover;
+import com.example.loverbackend.model.VipService;
+import com.example.loverbackend.service.IFreeServiceService;
+import com.example.loverbackend.service.IServiceLoverService;
+import com.example.loverbackend.service.IVipServiceService;
 import com.example.loverbackend.service.extend.ProfileLoverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -20,6 +29,12 @@ public class ProfileLoverController {
     ProfileLoverMapper profileLoverMapper;
     @Autowired
     AccountMapper accountMapper;
+    @Autowired
+    IServiceLoverService serviceLoverService;
+    @Autowired
+    IFreeServiceService freeServiceService;
+    @Autowired
+    IVipServiceService vipServiceService;
 
     @GetMapping
     public ResponseEntity<Iterable<?>> showList() {
@@ -57,5 +72,41 @@ public class ProfileLoverController {
         return new ResponseEntity<>(profileLoverService.sortProfileLoversByMoneyDescending(profileLoverService.findAll()),HttpStatus.OK);
 
 }
+    @PostMapping("/services/{profileLoverId}")
+    public ResponseEntity<?> addServicesToProfileLover(@PathVariable Long profileLoverId, @RequestBody List<Long> serviceIds) {
+        try{
+            ProfileLover profileLover = profileLoverMapper.toEntity(profileLoverService.getDetails(profileLoverId));
+            List<ServiceLover> serviceLovers = serviceLoverService.getServicesByIds(serviceIds);
+            profileLover.setServiceLovers(serviceLovers);
+            profileLoverService.save(profileLover);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @PostMapping("/freeServices/{profileLoverId}")
+    public ResponseEntity<?> addFreeServicesToProfileLover(@PathVariable Long profileLoverId, @RequestBody List<Long> FreeServiceIds) {
+        try{
+            ProfileLover profileLover = profileLoverMapper.toEntity(profileLoverService.getDetails(profileLoverId));
+            List<FreeService> FreeServiceLovers = freeServiceService.getFreeServicesByIds(FreeServiceIds);
+            profileLover.setFreeServices(FreeServiceLovers);
+            profileLoverService.save(profileLover);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @PostMapping("/vipServices/{profileLoverId}")
+    public ResponseEntity<?> addVipServicesToProfileLover(@PathVariable Long profileLoverId, @RequestBody List<Long> vipServiceIds) {
+        try{
+            ProfileLover profileLover = profileLoverMapper.toEntity(profileLoverService.getDetails(profileLoverId));
+            List<VipService> vipServices = vipServiceService.getVipServicesByIds(vipServiceIds);
+            profileLover.setVipServices(vipServices);
+            profileLoverService.save(profileLover);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
 }
