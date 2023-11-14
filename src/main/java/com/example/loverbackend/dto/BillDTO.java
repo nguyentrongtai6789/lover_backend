@@ -12,11 +12,10 @@ import java.util.List;
 @Data
 public class BillDTO extends BaseDTO {
     private Long id;
-    private LocalDateTime timeStart;
-    private LocalDateTime timeEnd;
-    private AccountDTO accountDTOUser;
-    private AccountDTO accountDTOLover;
-    private List<FreeService> freeServices;
+    private int time;
+    private LocalDateTime createdAt;
+    private AccountDTO accountUser;
+    private AccountDTO accountLover;
     private List<VipService> vipServices;
     private double totalMoney;
     private StatusBill statusBill;
