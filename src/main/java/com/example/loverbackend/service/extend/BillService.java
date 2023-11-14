@@ -36,7 +36,7 @@ public class BillService extends BaseService<BillRepository, BillDTO, Bill> {
     public boolean deleteById(Long id) {
         Optional<Bill> billOptional = billRepository.findById(id);
         if (!billOptional.equals(null)) {
-            billOptional.get().setIsActive(2);
+            billRepository.deleteById(id);
             return true;
         }
         return false;
@@ -45,5 +45,8 @@ public class BillService extends BaseService<BillRepository, BillDTO, Bill> {
     @Override
     public List<BillDTO> findAll() {
         return billMapper.toDto(billRepository.findAll());
+    }
+    public List<BillDTO> findAllByAccountUserId(Long id) {
+        return billMapper.toDto(billRepository.findAllByAccountUser_Id(id));
     }
 }
