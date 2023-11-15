@@ -53,4 +53,7 @@ public class BillDetailProfileLoverService extends BaseService<BillDetailProfile
 //        }
 //        return null;
     }
+    public List<BillDetailProfileLoverDTO> findAllByAccountProfileLoverId(Long id){
+     return  billDetailProfileLoverMapper.toDto(billDetailProfileLoverRepository.findAllByAccountLoverId(id));
+    }
 }

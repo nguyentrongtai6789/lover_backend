@@ -23,4 +23,8 @@ public class billDetailProfileLoverController {
     public ResponseEntity<List<BillDetailProfileLoverDTO>>  showList(){
         return new ResponseEntity<>(billDetailProfileLoverService.findAll(), HttpStatus.OK);
     }
+    @GetMapping("/findAllByIdProfileLover/{id}")
+    public ResponseEntity<List<BillDetailProfileLoverDTO>> findAllByIdProfileLover(@PathVariable Long id){
+        return new ResponseEntity<>(billDetailProfileLoverService.findAll(),HttpStatus.OK);
+    }
 }
