@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface BillRepository extends BaseRepository<Bill>, JpaRepository<Bill, Long> {
     List<Bill> findAllByAccountUser_Id(Long id);
+    List<Bill> findAllByAccountLover_Id(Long id);
 }

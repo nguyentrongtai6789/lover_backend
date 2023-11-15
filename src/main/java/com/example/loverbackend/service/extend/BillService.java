@@ -5,6 +5,7 @@ import com.example.loverbackend.mapper.BillMapper;
 import com.example.loverbackend.model.Bill;
 import com.example.loverbackend.repository.BillRepository;
 import com.example.loverbackend.service.BaseService;
+import com.example.loverbackend.service.impl.StatusBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class BillService extends BaseService<BillRepository, BillDTO, Bill> {
     private BillRepository billRepository;
     @Autowired
     private BillMapper billMapper;
+
 
     @Override
     public void save(Bill bill) {
@@ -48,5 +50,11 @@ public class BillService extends BaseService<BillRepository, BillDTO, Bill> {
     }
     public List<BillDTO> findAllByAccountUserId(Long id) {
         return billMapper.toDto(billRepository.findAllByAccountUser_Id(id));
+    }
+    public List<BillDTO> findAllByAccountLoverId(Long id) {
+        return billMapper.toDto(billRepository.findAllByAccountLover_Id(id));
+    }
+    public Bill findById(Long id) {
+        return billRepository.findById(id).get();
     }
 }

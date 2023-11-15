@@ -85,7 +85,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/bill/createBill").hasAnyRole(new String[]{"LOVER", "USER"})
                 .antMatchers("/api/bill/findAll").hasAnyRole(new String[]{"LOVER", "USER"})
                 .antMatchers("/api/bill/findAllByAccountUserId/**").hasAnyRole(new String[]{"LOVER", "USER"})
+                .antMatchers("/api/bill/findAllByAccountLoverId/**").hasAnyRole(new String[]{"LOVER", "USER"})
                 .antMatchers("/api/bill/deleteById/**").hasAnyRole(new String[]{"LOVER", "USER"})
+                .antMatchers("/api/bill/loverRejectBill/**").hasAnyRole("LOVER")
+                .antMatchers("/api/bill/loverAcceptBill/**").hasAnyRole("LOVER")
+                .antMatchers("/api/bill/doneBillByLover/**").hasAnyRole("LOVER")
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
