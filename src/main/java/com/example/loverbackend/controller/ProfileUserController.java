@@ -3,6 +3,8 @@ package com.example.loverbackend.controller;
 import com.example.loverbackend.dto.ProfileUserDTO;
 import com.example.loverbackend.mapper.ProfileUserMapper;
 import com.example.loverbackend.model.ProfileUser;
+import com.example.loverbackend.model.StatusUser;
+import com.example.loverbackend.service.IStatusUserService;
 import com.example.loverbackend.service.extend.ProfileUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,8 @@ public class ProfileUserController {
     private ProfileUserService profileUserService;
     @Autowired
     private ProfileUserMapper profileUserMapper;
+    @Autowired
+    private IStatusUserService statusUserService;
     @GetMapping("/findByIdAccount/{id}")
     public ResponseEntity<ProfileUserDTO> findByIdAccount(@PathVariable Long id) {
         return new ResponseEntity<>(profileUserService.findByIdAccount(id), HttpStatus.OK);
@@ -31,5 +35,13 @@ public class ProfileUserController {
     public ResponseEntity<ProfileUserDTO> updateInfo(@RequestBody ProfileUserDTO profileUserDTO) {
         profileUserService.updateInfo(profileUserDTO);
         return new ResponseEntity<>(profileUserService.findByIdAccount(profileUserDTO.getAccount().getId()), HttpStatus.OK);
+    }
+    @GetMapping("/registerToLover/{idAccountUser}")
+    public ResponseEntity<?> registerToLover(@PathVariable Long idAccountUser) {
+        ProfileUser profileUser = profileUserService.findByIdAccountUser(idAccountUser);
+        StatusUser statusUser = statusUserService.findById(Long.valueOf(1));
+        profileUser.setStatusUser(statusUser);
+        profileUserService.save(profileUser);
+        return new ResponseEntity<>("Bạn đã gửi yêu cầu thành công, đợi admin xác nhận!", HttpStatus.OK);
     }
 }
