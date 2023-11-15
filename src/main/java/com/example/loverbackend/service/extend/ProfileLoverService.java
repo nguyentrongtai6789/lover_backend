@@ -64,14 +64,34 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLovers);
         return profileLoverDTOS;
     }
-    public List<ProfileLoverDTO> findAllByVipService(Long id){
+
+    public List<ProfileLoverDTO> findAllByVipService(Long id) {
         List<ProfileLover> profileLovers = profileLoverRepository.searchByIdVipService(id);
         List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLovers);
         return profileLoverDTOS;
-    };
+    }
+
+    ;
+
     public List<ProfileLoverDTO> findAllByFreeService(Long id) {
         List<ProfileLover> profileLovers = profileLoverRepository.searchByFreeService(id);
         List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLovers);
         return profileLoverDTOS;
+    }
+
+    public List<ProfileLoverDTO> findAllByBaseService(Long id) {
+        List<ProfileLover> profileLovers = profileLoverRepository.searchByBaseService(id);
+        List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLovers);
+        return profileLoverDTOS;
+    }
+
+    public ProfileLover findByIdAccount(Long id) {
+        List<ProfileLover> profileLovers = profileLoverRepository.findAll();
+        for (ProfileLover profileLover : profileLovers) {
+            if (profileLover.getAccount().getId().equals(id)) {
+                return profileLover;
+            }
+        }
+        return null;
     }
 }

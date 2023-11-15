@@ -41,4 +41,12 @@ public class VipServiceService implements IVipServiceService {
     public List<VipService> findAll() {
         return vipServiceRepository.findAll();
     }
+
+    @Override
+    public List<VipService> getVipServicesByIds(List<Long> vipServicesByIds) {
+        return vipServiceRepository.findAllById(vipServicesByIds);
+    }
+    public List<VipService> findAllByIdLover(Long id) {
+        return vipServiceRepository.findByIdProfileLover(id);
+    }
 }

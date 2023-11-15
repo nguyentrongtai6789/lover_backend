@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("api/citys")
+@RequestMapping("/api/citys")
 public class CityController {
     @Autowired
     private ICityService cityService;
-    @GetMapping("/{id}")
+    @GetMapping("/findAllById/{id}")
     public ResponseEntity<?> findAllByIdCountry(@PathVariable Long id){
         return new ResponseEntity<>(cityService.findAllByCountryId(id), HttpStatus.OK);
     }

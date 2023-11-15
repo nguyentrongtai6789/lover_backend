@@ -1,7 +1,6 @@
 package com.example.loverbackend.controller;
 
-import com.example.loverbackend.model.Country;
-import com.example.loverbackend.service.impl.CountryService;
+import com.example.loverbackend.service.IServiceLoverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/countrys")
-public class CountryController {
+@RequestMapping("/api/services")
+public class ServiceController {
     @Autowired
-    CountryService countryService;
+    private IServiceLoverService serviceLoverService;
     @GetMapping
-    public ResponseEntity<Iterable<Country>> showList(){
-        return new ResponseEntity<>(countryService.findAll(), HttpStatus.OK);
+    public ResponseEntity<Iterable<?>> showList(){
+        return new ResponseEntity<>(serviceLoverService.findAll(), HttpStatus.OK);
     }
 }

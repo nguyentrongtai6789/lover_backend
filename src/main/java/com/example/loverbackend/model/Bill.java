@@ -13,17 +13,11 @@ public class Bill extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime timeStart; // thời gian bắt đầu thuê
-    private LocalDateTime timeEnd; // thời gian kết thúc thuê
+    private int time; // thời gian thuê
     @ManyToOne
     private Account accountUser; // tài khoản người dùng thuê
     @ManyToOne
     private Account accountLover; // tài khoản của lover
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "bills_freeServices",
-            joinColumns = {@JoinColumn(name = "id_bill")},
-            inverseJoinColumns = {@JoinColumn(name = "id_freeService")})
-    private List<FreeService> freeServices; // danh sách các dịch vụ free mà user lựa chọn trong profile lover
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "bills_vipServices",
             joinColumns = {@JoinColumn(name = "id_bill")},

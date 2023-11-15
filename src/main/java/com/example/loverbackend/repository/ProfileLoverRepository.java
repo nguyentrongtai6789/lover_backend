@@ -40,4 +40,11 @@ public interface ProfileLoverRepository extends BaseRepository<ProfileLover>, Jp
             "         JOIN profile_lovers_free_services f ON p.id = f.id_profile_lover\n" +
             "WHERE f.id_free_service = ?;", nativeQuery = true)
     List<ProfileLover> searchByFreeService(Long id);
+    @Transactional
+    @Modifying
+    @Query(value = "SELECT *\n" +
+            "FROM profile_lover p\n" +
+            "         JOIN profile_lovers_service_lovers s ON p.id = s.id_profile_lover\n" +
+            "WHERE s.id_service_lover = ?;", nativeQuery = true)
+    List<ProfileLover> searchByBaseService(Long id);
 }

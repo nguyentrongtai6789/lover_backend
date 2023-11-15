@@ -40,4 +40,13 @@ public class ProfileLoverController2 {
     public ResponseEntity<List<ProfileLoverDTO>> findAllByFreeService(@PathVariable Long id) {
         return new ResponseEntity<>(profileLoverService.findAllByFreeService(id), HttpStatus.OK);
     }
+    @GetMapping("/findAllByBaseService/{id}")
+    public ResponseEntity<List<ProfileLoverDTO>> findAllByBaseService(@PathVariable Long id) {
+        return new ResponseEntity<>(profileLoverService.findAllByBaseService(id), HttpStatus.OK);
+    }
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<ProfileLoverDTO> findById(@PathVariable Long id) {
+        return new ResponseEntity<>(profileLoverService.getDetails(id), HttpStatus.OK);
+    }
+
 }
