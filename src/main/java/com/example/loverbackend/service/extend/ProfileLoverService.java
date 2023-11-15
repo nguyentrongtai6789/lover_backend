@@ -94,9 +94,34 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         }
         return null;
     }
+
     public Optional<ProfileLoverDTO> findByIdAccount(Long idAccount) {
-        Optional<ProfileLover> profileLoverOptional = profileLoverRepository.findById(idAccount);
+        Optional<ProfileLover> profileLoverOptional = Optional.ofNullable(profileLoverRepository.findByAccountId(idAccount));
         return Optional.ofNullable(profileLoverMapper.toDto(profileLoverOptional.orElse(null)));
 
     }
+
+    public boolean checkProfileLoverByIdAccount(Long id) {
+        boolean check = false;
+        List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLoverRepository.findAll());
+        for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
+            if (profileLoverDTO.getAccount().getId().equals(id)) {
+                check = true;
+                break;
+            }
+        }
+        return check;
+    }
+
+    public void saveProfileLover(ProfileLoverDTO profileLoverDTO) {
+boolean flag = checkProfileLoverByIdAccount(profileLoverDTO.getAccount().getId());
+    if (flag){
+        Optional<ProfileLoverDTO> profileLoverDTOs = findByIdAccount(profileLoverDTO.getAccount().getId());
+        profileLoverDTO.setId(profileLoverDTOs.get().getId());
+        profileLoverRepository.save(profileLoverMapper.toEntity(profileLoverDTO));
+    }else {
+        profileLoverRepository.save(profileLoverMapper.toEntity(profileLoverDTO));
+    }
+        }
+
 }

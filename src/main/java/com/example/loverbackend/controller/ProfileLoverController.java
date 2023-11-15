@@ -56,7 +56,11 @@ public class ProfileLoverController {
         profileLoverService.save(profileLoverMapper.toEntity(profileLoverDTO));
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @PostMapping("/update")
+public ResponseEntity<?> updateProfileLover(@RequestBody ProfileLoverDTO profileLoverDTO){
+        profileLoverService.saveProfileLover(profileLoverDTO);
+       return new ResponseEntity<>(HttpStatus.OK);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Optional<ProfileLoverDTO> profileLover = Optional.ofNullable(profileLoverService.getDetails(id));
