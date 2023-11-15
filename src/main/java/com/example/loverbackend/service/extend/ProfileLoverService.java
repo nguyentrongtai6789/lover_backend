@@ -85,7 +85,7 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         return profileLoverDTOS;
     }
 
-    public ProfileLover findByIdAccount(Long id) {
+    public ProfileLover findByIdAccount1(Long id) {
         List<ProfileLover> profileLovers = profileLoverRepository.findAll();
         for (ProfileLover profileLover : profileLovers) {
             if (profileLover.getAccount().getId().equals(id)) {
@@ -93,5 +93,10 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
             }
         }
         return null;
+    }
+    public Optional<ProfileLoverDTO> findByIdAccount(Long idAccount) {
+        Optional<ProfileLover> profileLoverOptional = profileLoverRepository.findById(idAccount);
+        return Optional.ofNullable(profileLoverMapper.toDto(profileLoverOptional.orElse(null)));
+
     }
 }

@@ -72,7 +72,7 @@ public class BillController {
     @GetMapping("/loverAcceptBill/{idBill}/{idAccountLover}")
     public ResponseEntity<?> loverAcceptBill(@PathVariable Long idBill, @PathVariable Long idAccountLover) {
         Bill bill = billService.findById(idBill);
-        ProfileLover profileLover = profileLoverService.findByIdAccount(idAccountLover);
+        ProfileLover profileLover = profileLoverService.findByIdAccount1(idAccountLover);
         if (profileLover.getStatusLover().getId() == 2) {
             return new ResponseEntity<>("Bạn đang có 1 đơn chưa hoàn thành!", HttpStatus.OK);
         }
@@ -85,7 +85,7 @@ public class BillController {
     }
     @GetMapping("/doneBillByLover/{idBill}/{idAccountLover}")
     public ResponseEntity<?> doneBillByLover(@PathVariable Long idBill, @PathVariable Long idAccountLover) {
-        ProfileLover profileLover = profileLoverService.findByIdAccount(idAccountLover);
+        ProfileLover profileLover = profileLoverService.findByIdAccount1(idAccountLover);
         StatusLover statusLover = statusLoverService.findById(Long.valueOf(1));
         profileLover.setStatusLover(statusLover);
         StatusBill statusBill = statusBillService.findById(Long.valueOf(3));

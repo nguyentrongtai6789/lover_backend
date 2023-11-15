@@ -22,6 +22,7 @@ public interface ProfileLoverRepository extends BaseRepository<ProfileLover>, Jp
          Collections.sort(profileLoverDTOS,new ProfileLoverMoneyComparator());
          return profileLoverDTOS;
     }
+     ProfileLover findByAccountId(Long id);
     @Transactional
     @Modifying
     @Query(value = "select * from profile_lover p join accounts a on p.account_id = a.id where a.nickname like :keyword", nativeQuery = true)
