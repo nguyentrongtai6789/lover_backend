@@ -76,6 +76,15 @@ public ResponseEntity<?> updateProfileLover(@RequestBody ProfileLoverDTO profile
         return new ResponseEntity<>(profileLoverService.sortProfileLoversByMoneyDescending(profileLoverService.findAll()),HttpStatus.OK);
 
 }
+    @GetMapping("/findByIdAccount/{id}")
+    public ResponseEntity<?> findByIdAccount(@PathVariable Long id){
+        Optional<ProfileLoverDTO> profileLoverDTO = profileLoverService.findByIdAccount(id);
+        if (profileLoverDTO.isPresent()){
+            return new ResponseEntity<>(profileLoverDTO,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     @PostMapping("/services/{profileLoverId}")
     public ResponseEntity<?> addServicesToProfileLover(@PathVariable Long profileLoverId, @RequestBody List<Long> serviceIds) {
         try{
