@@ -137,5 +137,7 @@ public class AccountService extends BaseService<AccountRepository, AccountDTO, A
     public Account findByEmail(String email) {
         return accountRepository.findByEmail(email);
     }
-
+    public Account findById(Long id) {
+        return accountRepository.findById(id).get();
+    }
 }

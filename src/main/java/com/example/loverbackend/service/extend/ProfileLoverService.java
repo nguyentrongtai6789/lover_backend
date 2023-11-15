@@ -5,8 +5,12 @@ import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.ProfileLoverMapper;
 import com.example.loverbackend.model.Account;
 import com.example.loverbackend.model.ProfileLover;
+import com.example.loverbackend.model.StatusLover;
 import com.example.loverbackend.repository.ProfileLoverRepository;
+import com.example.loverbackend.repository.StatusLoverRepository;
 import com.example.loverbackend.service.BaseService;
+import com.example.loverbackend.service.IStatusLoverService;
+import com.example.loverbackend.service.impl.StatusLoverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,6 +31,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     private AccountMapper accountMapper;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private IStatusLoverService statusLoverService;
 
     @Override
     public void save(ProfileLover profileLover) {
@@ -98,7 +104,17 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     public Optional<ProfileLoverDTO> findByIdAccount(Long idAccount) {
         Optional<ProfileLover> profileLoverOptional = Optional.ofNullable(profileLoverRepository.findByAccountId(idAccount));
         return Optional.ofNullable(profileLoverMapper.toDto(profileLoverOptional.orElse(null)));
-
+    }
+    public ProfileLover createProfileLoverWhenAcceptUser() {
+        ProfileLover profileLover = new ProfileLover();
+        StatusLover statusLover = statusLoverService.findById(Long.valueOf(1));
+        profileLover.setStatusLover(statusLover);
+        profileLover.setAverageRateScore(0);
+        profileLover.setHeight(1.7);
+        profileLover.setPrice(50000);
+        profileLover.setTotalMoneyRented(0);
+        profileLover.setWeight(50);
+        return profileLover;
     }
 
     public boolean checkProfileLoverByIdAccount(Long id) {
