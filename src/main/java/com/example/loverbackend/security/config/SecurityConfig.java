@@ -69,6 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/api/createNewAccount/**").permitAll()
                 .antMatchers( "/api/profileUser/**").hasAnyRole(new String[]{"LOVER", "USER"})
                 .antMatchers( "/api/profileLover/findAll").permitAll()
+                .antMatchers( "/api/profileLover/registerToLover/**").hasAnyRole("USER")
                 .antMatchers( "/api/profileLover/getTotalPage").permitAll()
 //                .antMatchers("/api/blog/**").hasAnyRole(new String[]{"ADMIN", "USER"})
                 .antMatchers("/api/vipService/findAll").permitAll()
@@ -90,6 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/bill/loverRejectBill/**").hasAnyRole("LOVER")
                 .antMatchers("/api/bill/loverAcceptBill/**").hasAnyRole("LOVER")
                 .antMatchers("/api/bill/doneBillByLover/**").hasAnyRole("LOVER")
+                .antMatchers("/api/admin/findAllUserRegisterToLover").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

@@ -74,7 +74,9 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
         }
         return null;
     }
-
+    public ProfileUser findByIdAccountUser(Long id) {
+        return profileUserRepository.findByAccount_Id(id);
+    }
     public void updateAvatar(String url, Long idAccount) {
         List<ProfileUser> profileUsers = profileUserRepository.findAll();
         for (ProfileUser profileUser : profileUsers) {
@@ -98,5 +100,8 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
                 break;
             }
         }
+    }
+    public List<ProfileUserDTO> findByStatusUserId(Long id) {
+        return profileUserMapper.toDto(profileUserRepository.findAllByStatusUser_Id(id));
     }
 }

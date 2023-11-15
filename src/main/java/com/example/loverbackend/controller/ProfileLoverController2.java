@@ -2,7 +2,12 @@ package com.example.loverbackend.controller;
 
 import com.example.loverbackend.dto.ProfileLoverDTO;
 import com.example.loverbackend.model.ProfileLover;
+import com.example.loverbackend.model.ProfileUser;
+import com.example.loverbackend.model.StatusUser;
+import com.example.loverbackend.service.IStatusUserService;
 import com.example.loverbackend.service.extend.ProfileLoverService;
+import com.example.loverbackend.service.extend.ProfileUserService;
+import com.example.loverbackend.service.impl.StatusUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +25,8 @@ import java.util.List;
 public class ProfileLoverController2 {
     @Autowired
     private ProfileLoverService profileLoverService;
+    @Autowired
+    private ProfileUserService profileUserService;
 
     @GetMapping("/findAll")
     public ResponseEntity<List<ProfileLoverDTO>> findAll() {
