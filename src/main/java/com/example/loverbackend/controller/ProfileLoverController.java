@@ -67,6 +67,15 @@ public class ProfileLoverController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/findByIdAccount/{id}")
+    public ResponseEntity<?> findByIdAccount(@PathVariable Long id){
+        Optional<ProfileLoverDTO> profileLoverDTO = profileLoverService.findByIdAccount(id);
+        if (profileLoverDTO.isPresent()){
+            return new ResponseEntity<>(profileLoverDTO,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 @GetMapping("/sortProfileLoversByMoneyDescending")
     public ResponseEntity<Iterable<?>> SortProfileLoversByMoneyDescending(){
         return new ResponseEntity<>(profileLoverService.sortProfileLoversByMoneyDescending(profileLoverService.findAll()),HttpStatus.OK);

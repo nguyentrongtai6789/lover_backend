@@ -79,4 +79,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLovers);
         return profileLoverDTOS;
     }
+    public Optional<ProfileLoverDTO> findByIdAccount(Long idAccount) {
+        Optional<ProfileLover> profileLoverOptional = profileLoverRepository.findById(idAccount);
+        return Optional.ofNullable(profileLoverMapper.toDto(profileLoverOptional.orElse(null)));
+    }
 }
