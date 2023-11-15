@@ -13,6 +13,9 @@ public class ProfileLoverDTO extends BaseDTO {
     private Long id;
     private LocalDate dateOfBirth;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
+    private int isActive = 1;
     private Gender gender;
     private City city;
     private String avatarImage;

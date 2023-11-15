@@ -81,6 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/profileLover/findAllByFreeService/**").permitAll()
                 .antMatchers("/api/profileLover/findAllByBaseService/**").permitAll()
                 .antMatchers("/api/profileLover/findById/**").permitAll()
+                .antMatchers("/api/profileLoves/update").permitAll()
                 .antMatchers("/api/image/findAllByIdProfileLover/**").permitAll()
                 .antMatchers("/api/vipService/findVipServicesOfLover/**").permitAll()
                 .antMatchers("/api/bill/createBill").hasAnyRole(new String[]{"LOVER", "USER"})
