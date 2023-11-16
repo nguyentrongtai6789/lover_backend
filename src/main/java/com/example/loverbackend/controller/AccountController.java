@@ -99,13 +99,13 @@ public class AccountController {
     public ResponseEntity<?> createNewAccount(@RequestBody Account account, @PathVariable String codeEmailVerification) {
         if (codeEmailVerification.equals(AccountService.randomCodeSendToEmail)) {
             if (accountService.checkNicknameExisted(account.getNickname())) {
-                return new ResponseEntity<>("Nickname này đã được sử dụng!", HttpStatus.OK);
+                return new ResponseEntity<>("1", HttpStatus.OK);
             }
             if (accountService.checkUsernameExisted(account.getUsername())) {
-                return new ResponseEntity<>("Username này đã được sử dụng!", HttpStatus.OK);
+                return new ResponseEntity<>("2", HttpStatus.OK);
             }
             if (accountService.checkEmailExisted(account.getEmail())) {
-                return new ResponseEntity<>("Email này đã được sử dụng!", HttpStatus.OK);
+                return new ResponseEntity<>("3", HttpStatus.OK);
             }
             // set role mặc định cho account đăng kí là ROLE_USER:
             Set<Role> roleSet = new HashSet<>();
@@ -124,9 +124,9 @@ public class AccountController {
             account.setCreatedAt(LocalDateTime.now());
             // create new profile user:
             profileUserService.createProfileUserWhenCreateAccount(account);
-            return new ResponseEntity<>("Tạo tài khoản thành công!", HttpStatus.OK);
+            return new ResponseEntity<>("4", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Mã xác nhận không đúng!", HttpStatus.OK);
+            return new ResponseEntity<>("5", HttpStatus.OK);
         }
     }
 }
