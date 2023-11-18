@@ -144,6 +144,21 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     public List<ProfileLoverDTO> findAllByNormaFilter(Filter filter) {
         List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLoverRepository
                 .findAllByNormalFilter(filter.getIdGender(), filter.getIdCity(), filter.getIdStatusLover()));
+        List<ProfileLoverDTO> profileLoverDTOList = new ArrayList<>();
+        if (filter.getIdCountry() != 0) {
+            for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
+                if (profileLoverDTO.getCity().getCountry().getId() == filter.getIdCountry()
+                        && profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue())) {
+                    profileLoverDTOList.add(profileLoverDTO);
+                }
+            }
+        } else {
+            for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
+                if (profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue())) {
+                    profileLoverDTOList.add(profileLoverDTO);
+                }
+            }
+        }
         if (filter.getArrangeCost() == 1) {
             Comparator<ProfileLoverDTO> priceComparator = new Comparator<ProfileLoverDTO>() {
                 @Override
@@ -157,8 +172,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
                     }
                 }
             };
-            Collections.sort(profileLoverDTOS, priceComparator);
-            return profileLoverDTOS;
+            Collections.sort(profileLoverDTOList, priceComparator);
+            return profileLoverDTOList;
         } else {
             Comparator<ProfileLoverDTO> priceComparator = new Comparator<ProfileLoverDTO>() {
                 @Override
@@ -172,8 +187,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
                     }
                 }
             };
-            Collections.sort(profileLoverDTOS, priceComparator);
-            return profileLoverDTOS;
+            Collections.sort(profileLoverDTOList, priceComparator);
+            return profileLoverDTOList;
         }
     }
 
@@ -193,6 +208,21 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
                 }
             }
         }
+        List<ProfileLoverDTO> profileLoverDTOList2 = new ArrayList<>();
+        if (filter.getIdCountry() != 0) {
+            for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
+                if (profileLoverDTO.getCity().getCountry().getId() == filter.getIdCountry()
+                        && profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue())) {
+                    profileLoverDTOList2.add(profileLoverDTO);
+                }
+            }
+        } else {
+            for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
+                if (profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue())) {
+                    profileLoverDTOList2.add(profileLoverDTO);
+                }
+            }
+        }
         if (filter.getArrangeCost() == 1) {
             Comparator<ProfileLoverDTO> priceComparator = new Comparator<ProfileLoverDTO>() {
                 @Override
@@ -206,8 +236,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
                     }
                 }
             };
-            Collections.sort(profileLoverDTOS, priceComparator);
-            return profileLoverDTOS;
+            Collections.sort(profileLoverDTOList2, priceComparator);
+            return profileLoverDTOList2;
         } else {
             Comparator<ProfileLoverDTO> priceComparator = new Comparator<ProfileLoverDTO>() {
                 @Override
@@ -221,8 +251,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
                     }
                 }
             };
-            Collections.sort(profileLoverDTOS, priceComparator);
-            return profileLoverDTOS;
+            Collections.sort(profileLoverDTOList2, priceComparator);
+            return profileLoverDTOList2;
         }
     }
 }
