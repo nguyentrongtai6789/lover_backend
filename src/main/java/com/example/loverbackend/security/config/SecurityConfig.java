@@ -80,6 +80,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/profileLover/findAllByFreeService/**").permitAll()
                 .antMatchers("/api/profileLover/findAllByFreeService/**").permitAll()
                 .antMatchers("/api/profileLover/findAllByBaseService/**").permitAll()
+                .antMatchers("/api/profileLover/findAllStatusLover").permitAll()
+                .antMatchers("/api/profileLover/findAllByFilter").permitAll()
                 .antMatchers("/api/profileLover/findById/**").permitAll()
                 .antMatchers("/api/profileLoves/update").permitAll()
                 .antMatchers("/api/image/findAllByIdProfileLover/**").permitAll()
