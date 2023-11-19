@@ -79,9 +79,15 @@ public class AdminController {
         StatusUser statusUser = statusUserService.findById(Long.valueOf(2));
         profileUser.setStatusUser(statusUser);
         profileUserService.save(profileUser);
-        // xoá thông báo:
+        // xoá thông báo đến admin:
         Notification notification = notificationService.findByAccountReceiveIdAndAccountSendId(Long.valueOf(14), idAccount);
         notificationService.deleteById(notification.getId());
+        // tạo thông báo đến user:
+        Notification notification1 = notificationService.createNewByIdAccount(Long.valueOf(14), idAccount);
+        notification1.setContent("[Admin] Chúc mừng bạn đã đăng ký thành công tài khoản lover! " +
+                "Hãy vào trang lover của bạn và hoàn tất các thông tin cần thiết để thu hút người dùng! " +
+                "Chúc bạn thành công!");
+        notificationService.save(notification1);
         return new ResponseEntity<>("Xác nhận cấp quyền cho lover thành công!", HttpStatus.OK);
     }
 
