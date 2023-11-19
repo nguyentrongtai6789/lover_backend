@@ -94,5 +94,19 @@ public class BillController {
         billService.save(bill);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
+    @GetMapping("/doneBillByProfileLover/{idBill}/{idAccountLover}")
+    public ResponseEntity<?> dongBillByProfileLover(@PathVariable Long idBill,@PathVariable Long idAccountLover){
+        ProfileLover profileLover = profileLoverService.findByIdAccount1(idAccountLover);
+        Bill bill = billService.findById(idBill);
+        StatusLover statusLover = statusLoverService.findById(Long.valueOf(1));
+        profileLover.setStatusLover(statusLover);
+        profileLover.setTotalViews(profileLover.getTotalViews() + 1L);
+        profileLover.setTotalHourRented(profileLover.getTotalHourRented()+bill.getTime());
+        profileLover.setTotalMoneyRented(profileLover.getTotalMoneyRented()+ bill.getTotalMoney());
+        StatusBill statusBill = statusBillService.findById(Long.valueOf(3));
+        bill.setStatusBill(statusBill);
+        billService.save(bill);
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
 }
 
