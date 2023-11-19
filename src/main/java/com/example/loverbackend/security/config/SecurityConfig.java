@@ -84,6 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/profileLover/findAllStatusLover").permitAll()
                 .antMatchers("/api/profileLover/findAllByFilter").permitAll()
                 .antMatchers("/api/profileLover/findById/**").permitAll()
+                .antMatchers("/api/profileLover/userSendRequestRegisterToLover/**").hasAnyRole("USER")
                 .antMatchers("/api/profileLoves/update").permitAll()
                 .antMatchers("/api/image/findAllByIdProfileLover/**").permitAll()
                 .antMatchers("/api/vipService/findVipServicesOfLover/**").permitAll()

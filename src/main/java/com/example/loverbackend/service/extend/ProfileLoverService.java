@@ -3,15 +3,14 @@ package com.example.loverbackend.service.extend;
 import com.example.loverbackend.dto.ProfileLoverDTO;
 import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.ProfileLoverMapper;
-import com.example.loverbackend.model.Account;
-import com.example.loverbackend.model.Filter;
-import com.example.loverbackend.model.ProfileLover;
-import com.example.loverbackend.model.StatusLover;
+import com.example.loverbackend.model.*;
 import com.example.loverbackend.repository.ProfileLoverRepository;
+import com.example.loverbackend.repository.ProfileUserRepository;
 import com.example.loverbackend.repository.StatusLoverRepository;
 import com.example.loverbackend.service.BaseService;
 import com.example.loverbackend.service.IStatusLoverService;
 import com.example.loverbackend.service.impl.StatusLoverService;
+import com.example.loverbackend.service.impl.StatusUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -33,6 +32,12 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     private AccountService accountService;
     @Autowired
     private IStatusLoverService statusLoverService;
+    @Autowired
+    private ProfileUserService profileUserService;
+    @Autowired
+    private StatusUserService statusUserService;
+    @Autowired
+    private ProfileUserRepository profileUserRepository;
 
     @Override
     public void save(ProfileLover profileLover) {
@@ -254,5 +259,19 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
             Collections.sort(profileLoverDTOList2, priceComparator);
             return profileLoverDTOList2;
         }
+    }
+    public void createProfileLoverWhenUserRequest(Long idAccount, ProfileLover profileLover) {
+        Account account = accountService.findById(idAccount);
+        profileLover.setAccount(account);
+        profileLover.setIsActive(2); // trạng thái đang bị khoá
+        StatusLover statusLover = statusLoverService.findById(Long.valueOf(2));
+        profileLover.setStatusLover(statusLover);// đang tạm ngưng cung cấp dịch vụ
+        profileLover.setAverageRateScore(0);
+        profileLover.setTotalMoneyRented(0);
+        ProfileUser profileUser = profileUserService.findByIdAccountUser(idAccount);
+        StatusUser statusUser = statusUserService.findById(Long.valueOf(1));
+        profileUser.setStatusUser(statusUser); // chuyển trạng thái cho profileuser là đang đăng kí tài khoản lover
+        profileUserRepository.save(profileUser);
+        profileLoverRepository.save(profileLover);
     }
 }

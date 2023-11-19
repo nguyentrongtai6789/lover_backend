@@ -6,8 +6,10 @@ import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.ProfileUserMapper;
 import com.example.loverbackend.model.Account;
 import com.example.loverbackend.model.ProfileUser;
+import com.example.loverbackend.model.StatusUser;
 import com.example.loverbackend.repository.ProfileUserRepository;
 import com.example.loverbackend.service.BaseService;
+import com.example.loverbackend.service.impl.StatusUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
     private ProfileUserMapper profileUserMapper;
     @Autowired
     private AccountMapper accountMapper;
+    @Autowired
+    private StatusUserService statusUserService;
 
     @Override
     public void save(ProfileUser profileUser) {
@@ -58,6 +62,9 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
         profileUser.setCreatedAt(LocalDateTime.now());
         profileUser.setAccount(account);
         profileUser.setIsActive(1);
+        // đặt trạng thái ban đầu là chưa đăng kí tài khoản lover
+        StatusUser statusUser = statusUserService.findById(Long.valueOf(3));
+        profileUser.setStatusUser(statusUser);
         profileUser.setAvatarImage("https://firebasestorage.googleapis.com/v0/b/fir-upload-react-824b4.appspot.com/o/images%2Fc6e56503cfdd87da299f72dc416023d4.jpg?alt=media&token=707a56ef-9402-4ec2-8345-2057f928b3c6");
         profileUserRepository.save(profileUser);
     }
