@@ -45,7 +45,7 @@ public class ProfileLover extends BaseEntity {
             joinColumns = {@JoinColumn(name = "id_profileLover")},
             inverseJoinColumns = {@JoinColumn(name = "id_vipService")})
     private List<VipService> vipServices; // danh sách các dịch vụ vip mà lover lựa chọn để cung cấp cho user
-    private LocalTime totalHourRented; // tổng thời gian đã được thuê
+    private int totalHourRented; // tổng thời gian đã được thuê
     private double totalMoneyRented; // tổng tiền đã thu nhập được
     private double averageRateScore; // điểm đánh giá trung bình (từ 1 đến 5)
     @ManyToOne

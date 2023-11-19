@@ -97,13 +97,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     }
 
     public ProfileLover findByIdAccount1(Long id) {
-        List<ProfileLover> profileLovers = profileLoverRepository.findAll();
-        for (ProfileLover profileLover : profileLovers) {
-            if (profileLover.getAccount().getId().equals(id)) {
-                return profileLover;
-            }
-        }
-        return null;
+       ProfileLover profileLover = profileLoverRepository.findByAccount_Id(id);
+       return profileLover;
     }
 
     public Optional<ProfileLoverDTO> findByIdAccount(Long idAccount) {
@@ -268,6 +263,7 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         profileLover.setStatusLover(statusLover);// đang tạm ngưng cung cấp dịch vụ
         profileLover.setAverageRateScore(0);
         profileLover.setTotalMoneyRented(0);
+        profileLover.setTotalHourRented(0);
         ProfileUser profileUser = profileUserService.findByIdAccountUser(idAccount);
         StatusUser statusUser = statusUserService.findById(Long.valueOf(1));
         profileUser.setStatusUser(statusUser); // chuyển trạng thái cho profileuser là đang đăng kí tài khoản lover
