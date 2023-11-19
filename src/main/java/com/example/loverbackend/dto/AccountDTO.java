@@ -1,5 +1,6 @@
 package com.example.loverbackend.dto;
 
+import com.example.loverbackend.model.StatusAccount;
 import lombok.Data;
 
 import java.util.Set;
@@ -11,4 +12,5 @@ public class AccountDTO extends BaseDTO {
     private String email;
     private String nickname;
     private Set<RoleDTO> roles;
+    private StatusAccount statusAccount;
 }

@@ -1,5 +1,6 @@
 package com.example.loverbackend.dto;
 
+import com.example.loverbackend.model.StatusUser;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,4 +16,5 @@ public class ProfileUserDTO extends BaseDTO {
     private String phoneNumber;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
+    private StatusUser statusUser;
 }
