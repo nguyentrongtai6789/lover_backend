@@ -35,6 +35,7 @@ public class ProfileLoverDTO extends BaseDTO {
     private int totalHourRented; // tổng thời gian đã được thuê
     private double totalMoneyRented; // tổng tiền đã thu nhập được
     private double averageRateScore; // điểm đánh giá trung bình (từ 1 đến 5)
+    private Long totalViews;
     private StatusLover statusLover;
     private double price; // giá mà lover đưa ra
 }
