@@ -73,4 +73,10 @@ public class ProfileLoverController2 {
         List<ProfileLoverDTO> profileLoverDTOS = profileLoverService.findAllByFilter(filter);
         return new ResponseEntity<>(profileLoverDTOS, HttpStatus.OK);
     }
+    @PostMapping("/userSendRequestRegisterToLover/{idAccount}")
+    public ResponseEntity<?> userSendRequestRegisterToLover(@PathVariable Long idAccount,
+                                                            @RequestBody ProfileLover profileLover) {
+        profileLoverService.createProfileLoverWhenUserRequest(idAccount, profileLover);
+        return new ResponseEntity<>("Gửi yêu cầu thành công", HttpStatus.OK);
+    }
 }

@@ -6,12 +6,14 @@ import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.RoleMapper;
 import com.example.loverbackend.model.Account;
 import com.example.loverbackend.model.Role;
+import com.example.loverbackend.model.StatusAccount;
 import com.example.loverbackend.security.jwt.JwtResponse;
 import com.example.loverbackend.security.jwt.JwtService;
 import com.example.loverbackend.service.extend.AccountService;
 import com.example.loverbackend.service.extend.ProfileUserService;
 import com.example.loverbackend.service.extend.RoleService;
 //import javafx.scene.effect.SepiaTone;
+import com.example.loverbackend.service.impl.StatusAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +57,8 @@ public class AccountController {
     private RoleMapper roleMapper;
     @Autowired
     private ProfileUserService profileUserService;
+    @Autowired
+    private StatusAccountService statusAccountService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@RequestBody Account account) {
@@ -125,6 +129,8 @@ public class AccountController {
 //             create new account:
             accountService.save(account);
             account.setCreatedAt(LocalDateTime.now());
+            StatusAccount statusAccount = statusAccountService.findById(Long.valueOf(1));
+            account.setStatusAccount(statusAccount);
             // create new profile user:
             profileUserService.createProfileUserWhenCreateAccount(account);
             return new ResponseEntity<>("4", HttpStatus.OK);
