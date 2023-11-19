@@ -31,4 +31,6 @@ public class Account extends BaseEntity {
             joinColumns = {@JoinColumn(name = "account_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles;
+    @ManyToOne
+    private StatusAccount statusAccount;
 }

@@ -2,6 +2,7 @@ package com.example.loverbackend.controller;
 
 import com.example.loverbackend.dto.AccountDTO;
 import com.example.loverbackend.dto.RoleDTO;
+import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.RoleMapper;
 import com.example.loverbackend.model.Account;
 import com.example.loverbackend.model.Role;
@@ -43,6 +44,8 @@ public class AccountController {
 
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private AccountMapper accountMapper;
 
     @Autowired
     private AccountService accountService;
@@ -128,5 +131,10 @@ public class AccountController {
         } else {
             return new ResponseEntity<>("5", HttpStatus.OK);
         }
+    }
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<AccountDTO> findById(@PathVariable Long id) {
+        AccountDTO accountDTO = accountMapper.toDto(accountService.findById(id));
+        return new ResponseEntity<>(accountDTO, HttpStatus.OK);
     }
 }
