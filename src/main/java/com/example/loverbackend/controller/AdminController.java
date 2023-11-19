@@ -9,6 +9,7 @@ import com.example.loverbackend.service.extend.AccountService;
 import com.example.loverbackend.service.extend.ProfileLoverService;
 import com.example.loverbackend.service.extend.ProfileUserService;
 import com.example.loverbackend.service.extend.RoleService;
+import com.example.loverbackend.service.impl.NotificationService;
 import com.example.loverbackend.service.impl.StatusUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,8 @@ public class AdminController {
     private ProfileLoverService profileLoverService;
     @Autowired
     private StatusUserService statusUserService;
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/findAllUserRegisterToLover")
     public ResponseEntity<List<ProfileUserDTO>> findAllUserRegisterToLover() {
@@ -65,5 +68,10 @@ public class AdminController {
         profileUser.setStatusUser(statusUser);
         profileUserService.save(profileUser);
         return new ResponseEntity<>("Xác nhận cấp quyền cho lover thành công!", HttpStatus.OK);
+    }
+
+    @GetMapping("/findNotificationByIdAccount/{idAccount}")
+    public ResponseEntity<List<Notification>> findNotificationByIdAccount(@PathVariable Long idAccount) {
+        return new ResponseEntity<>(notificationService.findAllByIdAccount(idAccount), HttpStatus.OK);
     }
 }
