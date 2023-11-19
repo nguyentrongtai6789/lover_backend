@@ -44,7 +44,10 @@ public class NotificationService implements INotificationService {
         notification.setAccountReceive(accountReceive);
         return notification;
     }
-    public List<Notification> findAllByIdAccount(Long idAccount) {
+    public List<Notification> findAllByIdAccountReceive(Long idAccount) {
         return notificationRepository.findAllByAccountReceive_Id(idAccount);
+    }
+    public Notification findByAccountReceiveIdAndAccountSendId(Long idAccountReceive, Long idAccountSend) {
+        return notificationRepository.findByAccountReceive_IdAndAccountSend_Id(idAccountReceive, idAccountSend);
     }
 }

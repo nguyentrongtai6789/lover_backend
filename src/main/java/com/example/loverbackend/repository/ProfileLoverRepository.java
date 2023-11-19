@@ -25,7 +25,7 @@ public interface ProfileLoverRepository extends BaseRepository<ProfileLover>, Jp
     }
 
     ProfileLover findByAccountId(Long id);
-
+    ProfileLover findByAccount_Id(Long id);
     @Transactional
     @Modifying
     @Query(value = "select * from profile_lover p join accounts a on p.account_id = a.id where a.nickname like :keyword", nativeQuery = true)
