@@ -264,6 +264,7 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         profileLover.setAverageRateScore(0);
         profileLover.setTotalMoneyRented(0);
         profileLover.setTotalHourRented(0);
+        profileLover.setTotalViews(0L);
         ProfileUser profileUser = profileUserService.findByIdAccountUser(idAccount);
         StatusUser statusUser = statusUserService.findById(Long.valueOf(1));
         profileUser.setStatusUser(statusUser); // chuyển trạng thái cho profileuser là đang đăng kí tài khoản lover
