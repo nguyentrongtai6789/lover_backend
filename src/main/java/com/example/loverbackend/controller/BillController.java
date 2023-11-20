@@ -61,7 +61,7 @@ public class BillController {
     @GetMapping("/loverRejectBill/{idBill}")
     public ResponseEntity<?> loverRejectBill(@PathVariable Long idBill) {
         Bill bill = billService.findById(idBill);
-        StatusBill statusBill = statusBillService.findById(Long.valueOf(6));
+        StatusBill statusBill = statusBillService.findById(4L);
         bill.setStatusBill(statusBill);
         billService.save(bill);
         return new ResponseEntity<>("Huỷ đơn thành công!", HttpStatus.OK);
