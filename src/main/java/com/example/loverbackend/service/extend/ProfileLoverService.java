@@ -1,5 +1,6 @@
 package com.example.loverbackend.service.extend;
 
+import com.example.loverbackend.dto.AccountDTO;
 import com.example.loverbackend.dto.ProfileLoverDTO;
 import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.ProfileLoverMapper;
@@ -271,4 +272,7 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         profileUserRepository.save(profileUser);
         profileLoverRepository.save(profileLover);
     }
-}
+    public List<ProfileLoverDTO> findAllProfileLoverByIdRoles(Long idRoles){
+        return profileLoverMapper.toDto(profileLoverRepository.findAllByAccountRolesId(idRoles));
+     }
+ }
