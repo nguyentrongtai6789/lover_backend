@@ -82,4 +82,6 @@ public interface ProfileLoverRepository extends BaseRepository<ProfileLover>, Jp
             "  AND (:statusId = 0 OR p.status_lover_id = :statusId)\n" +
             ";", nativeQuery = true)
     List<ProfileLover> findAllByNormalFilter(Long genderId, Long cityId, Long statusId);
+List<ProfileLover> findAllByAccountRolesId(Long idRoles);
 }
+
