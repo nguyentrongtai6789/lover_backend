@@ -1,12 +1,10 @@
 package com.example.loverbackend.controller;
 
 import com.example.loverbackend.dto.BillDTO;
-import com.example.loverbackend.model.Bill;
-import com.example.loverbackend.model.ProfileLover;
-import com.example.loverbackend.model.StatusBill;
-import com.example.loverbackend.model.StatusLover;
+import com.example.loverbackend.model.*;
 import com.example.loverbackend.service.extend.BillService;
 import com.example.loverbackend.service.extend.ProfileLoverService;
+import com.example.loverbackend.service.impl.NotificationService;
 import com.example.loverbackend.service.impl.StatusBillService;
 import com.example.loverbackend.service.impl.StatusLoverService;
 import org.springframework.beans.factory.annotation.Autowired;
