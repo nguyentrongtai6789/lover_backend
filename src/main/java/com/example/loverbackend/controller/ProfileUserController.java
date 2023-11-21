@@ -7,6 +7,7 @@ import com.example.loverbackend.model.ProfileUser;
 import com.example.loverbackend.model.StatusUser;
 import com.example.loverbackend.service.IStatusUserService;
 import com.example.loverbackend.service.extend.ProfileUserService;
+import com.example.loverbackend.service.impl.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,8 @@ public class ProfileUserController {
     private ProfileUserMapper profileUserMapper;
     @Autowired
     private IStatusUserService statusUserService;
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/findByIdAccount/{id}")
     public ResponseEntity<ProfileUserDTO> findByIdAccount(@PathVariable Long id) {
@@ -47,5 +50,11 @@ public class ProfileUserController {
         profileUser.setStatusUser(statusUser);
         profileUserService.save(profileUser);
         return new ResponseEntity<>("Bạn đã gửi yêu cầu thành công, đợi admin xác nhận!", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteNotificationById/{id}")
+    public ResponseEntity<?> deleteNotificationById(@PathVariable Long id) {
+        notificationService.deleteById(id);
+        return new ResponseEntity<>("", HttpStatus.OK);
     }
 }
