@@ -95,4 +95,9 @@ public class AdminController {
     public ResponseEntity<List<Notification>> findNotificationByIdAccount(@PathVariable Long idAccount) {
         return new ResponseEntity<>(notificationService.findAllByIdAccountReceive(idAccount), HttpStatus.OK);
     }
+    @GetMapping("/findAllNotificationByIdAccount/{idAccount}")
+    public ResponseEntity<List<Notification>> findAllNotificationByIdAccount(@PathVariable Long idAccount) {
+        return new ResponseEntity<>(notificationService.findByIdAccountReceive(idAccount), HttpStatus.OK);
+    }
+
 }
