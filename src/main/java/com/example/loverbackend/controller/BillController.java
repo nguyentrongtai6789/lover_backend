@@ -42,6 +42,22 @@ public class BillController {
     public ResponseEntity<List<BillDTO>> findAll() {
         return new ResponseEntity<>(billService.findAll(), HttpStatus.OK);
     }
+    @GetMapping("/listBillByAccountProfileLoverId/{id}")
+    public ResponseEntity<List<BillDTO>> findAllBillProfileLover(@PathVariable Long id){
+return new ResponseEntity<>(billService.listBill(id),HttpStatus.OK);
+    }
+    @GetMapping("/listHistoryBillByAccountProfileLoverId/{id}")
+    public ResponseEntity<List<BillDTO>> findAllHistoryBillProfileLover(@PathVariable Long id){
+        return new ResponseEntity<>(billService.listHistoryBill(id),HttpStatus.OK);
+    }
+    @GetMapping("/listBillByAccountProfileUserId/{id}")
+    public ResponseEntity<List<BillDTO>> findAllBillProfileUser(@PathVariable Long id){
+        return new ResponseEntity<>(billService.listBillProfileUser(id),HttpStatus.OK);
+    }
+    @GetMapping("/listHistoryBillByAccountProfileUserId/{id}")
+    public ResponseEntity<List<BillDTO>> findAllHistoryBillProfileUser(@PathVariable Long id){
+        return new ResponseEntity<>(billService.listHistoryBillProfileUser(id),HttpStatus.OK);
+    }
 
     @GetMapping("/findAllByAccountUserId/{id}")
     public ResponseEntity<List<BillDTO>> findByAccountUserId(@PathVariable Long id) {
@@ -126,6 +142,16 @@ public class BillController {
         notificationService.save(notification);
         billService.save(bill);
         return new ResponseEntity<>("Xác nhận đơn thành công!", HttpStatus.OK);
+    }
+    @GetMapping("cancelBill/{idBill}")
+    public ResponseEntity<?> cancelBill(@PathVariable Long idBill){
+        Bill bill = billService.findById(idBill);
+        if (billService.cancelBill(bill)){
+            notificationService.save(notificationService.createAlertCancelBillFormSenderToReceiver(bill));
+            return new ResponseEntity<>("Huỷ Đơn thành công",HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("Đơn đã được lover xác nhận, vụi lòng liên hệ lover !!",HttpStatus.OK);
+        }
     }
 }
 
