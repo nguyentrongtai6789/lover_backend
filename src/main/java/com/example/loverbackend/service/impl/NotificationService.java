@@ -92,4 +92,13 @@ public class NotificationService implements INotificationService {
         notification.setContent("[" + account.getNickname() + "]" +"Đã đặt dịch vụ của bạn  ! vui lòng vào danh sách đơn để xem và xác nhận đơn của bạn !!!");
         return notification;
     }
+    public Notification createAlertCancelBillFormSenderToReceiver(Bill bill){
+        Notification notification = new Notification();
+        notification.setAccountSend(bill.getAccountUser());
+        notification.setAccountReceive(bill.getAccountLover());
+        notification.setTimeSend(LocalDateTime.now());
+        Account account = accountService.findById(bill.getAccountUser().getId());
+        notification.setContent("[" + account.getNickname() + "]" +"Tôi có việc đột xuất lên không thể sử dụng dịch vụ lúc này , sẽ ủng hộ bạn lần tới . cảm ơn !!!");
+        return notification;
+    }
 }
