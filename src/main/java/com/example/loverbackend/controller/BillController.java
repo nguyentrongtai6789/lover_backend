@@ -80,17 +80,23 @@ return new ResponseEntity<>(billService.listBill(id),HttpStatus.OK);
     @GetMapping("/loverRejectBill/{idBill}")
     public ResponseEntity<?> loverRejectBill(@PathVariable Long idBill) {
         Bill bill = billService.findById(idBill);
+        if (bill.getStatusBill().getId() == 5) {
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        }
         StatusBill statusBill = statusBillService.findById(4L);
         bill.setStatusBill(statusBill);
         billService.save(bill);
         notificationService.save(notificationService.createAlertRefuseByBillFormSenderToReceiver(bill));
-        return new ResponseEntity<>("Huỷ đơn thành công!", HttpStatus.OK);
+        return new ResponseEntity<>(2, HttpStatus.OK);
     }
 
     @GetMapping("/loverAcceptBill/{idBill}/{idAccountLover}")
     public ResponseEntity<?> loverAcceptBill(@PathVariable Long idBill, @PathVariable Long idAccountLover) {
         Bill bill = billService.findById(idBill);
         ProfileLover profileLover = profileLoverService.findByIdAccount1(idAccountLover);
+        if (bill.getStatusBill().getId() == 5) {
+            return new ResponseEntity<>("Đơn đã được người đặt huỷ trước đó!", HttpStatus.OK);
+        }
         if (profileLover.getStatusLover().getId() == 2) {
             return new ResponseEntity<>("Bạn đang có 1 đơn chưa hoàn thành!", HttpStatus.OK);
         }
@@ -132,7 +138,10 @@ return new ResponseEntity<>(billService.listBill(id),HttpStatus.OK);
         Bill bill = billService.findById(idBill);
         ProfileLover profileLover = profileLoverService.findByIdAccount1(bill.getAccountLover().getId());
         if (profileLover.getStatusLover().getId() == 2) {
-            return new ResponseEntity<>("Bạn đang có 1 đơn chưa hoàn thành!", HttpStatus.OK);
+            return new ResponseEntity<>(1, HttpStatus.OK);
+        }
+        if (bill.getStatusBill().getId() == 5) {
+            return new ResponseEntity<>(2, HttpStatus.OK);
         }
         StatusLover statusLover = statusLoverService.findById(2L);
         profileLover.setStatusLover(statusLover);
