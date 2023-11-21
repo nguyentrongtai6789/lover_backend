@@ -149,13 +149,13 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         if (filter.getIdCountry() != 0) {
             for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
                 if (profileLoverDTO.getCity().getCountry().getId() == filter.getIdCountry()
-                        && profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue())) {
+                        && profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue()) && (profileLoverDTO.getIsActive() == 1)) {
                     profileLoverDTOList.add(profileLoverDTO);
                 }
             }
         } else {
             for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
-                if (profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue())) {
+                if (profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue()) && (profileLoverDTO.getIsActive() == 1)) {
                     profileLoverDTOList.add(profileLoverDTO);
                 }
             }
@@ -213,13 +213,13 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         if (filter.getIdCountry() != 0) {
             for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
                 if (profileLoverDTO.getCity().getCountry().getId() == filter.getIdCountry()
-                        && profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue())) {
+                        && profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue()) && (profileLoverDTO.getIsActive() == 1)) {
                     profileLoverDTOList2.add(profileLoverDTO);
                 }
             }
         } else {
             for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
-                if (profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue())) {
+                if (profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue()) && (profileLoverDTO.getIsActive() == 1)) {
                     profileLoverDTOList2.add(profileLoverDTO);
                 }
             }
