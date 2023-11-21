@@ -1,12 +1,10 @@
 package com.example.loverbackend.controller;
 
 import com.example.loverbackend.dto.BillDTO;
-import com.example.loverbackend.model.Bill;
-import com.example.loverbackend.model.ProfileLover;
-import com.example.loverbackend.model.StatusBill;
-import com.example.loverbackend.model.StatusLover;
+import com.example.loverbackend.model.*;
 import com.example.loverbackend.service.extend.BillService;
 import com.example.loverbackend.service.extend.ProfileLoverService;
+import com.example.loverbackend.service.impl.NotificationService;
 import com.example.loverbackend.service.impl.StatusBillService;
 import com.example.loverbackend.service.impl.StatusLoverService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +27,13 @@ public class BillController {
     private ProfileLoverService profileLoverService;
     @Autowired
     private StatusLoverService statusLoverService;
+    @Autowired
+    private NotificationService notificationService;
 
     @PostMapping("/createBill")
     public ResponseEntity<?> createBill(@RequestBody Bill bill) {
         bill.setCreatedAt(LocalDateTime.now());
+        notificationService.save(notificationService.createAlertCreateBillFormSenderToReceiver(bill));
         billService.save(bill);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
@@ -63,9 +64,10 @@ public class BillController {
     @GetMapping("/loverRejectBill/{idBill}")
     public ResponseEntity<?> loverRejectBill(@PathVariable Long idBill) {
         Bill bill = billService.findById(idBill);
-        StatusBill statusBill = statusBillService.findById(Long.valueOf(6));
+        StatusBill statusBill = statusBillService.findById(4L);
         bill.setStatusBill(statusBill);
         billService.save(bill);
+        notificationService.save(notificationService.createAlertRefuseByBillFormSenderToReceiver(bill));
         return new ResponseEntity<>("Huỷ đơn thành công!", HttpStatus.OK);
     }
 
@@ -93,6 +95,37 @@ public class BillController {
         bill.setStatusBill(statusBill);
         billService.save(bill);
         return new ResponseEntity<>("", HttpStatus.OK);
+    }
+    @GetMapping("/doneBillByProfileLover/{idBill}")
+    public ResponseEntity<?> dongBillByProfileLover(@PathVariable Long idBill){
+        Bill bill = billService.findById(idBill);
+        ProfileLover profileLover = profileLoverService.findByIdAccount1(bill.getAccountLover().getId());
+        StatusLover statusLover = statusLoverService.findById(Long.valueOf(1));
+        profileLover.setStatusLover(statusLover);
+        profileLover.setTotalViews(profileLover.getTotalViews() + 1L);
+        profileLover.setTotalHourRented(profileLover.getTotalHourRented()+bill.getTime());
+        profileLover.setTotalMoneyRented(profileLover.getTotalMoneyRented()+ bill.getTotalMoney());
+        StatusBill statusBill = statusBillService.findById(Long.valueOf(3));
+        bill.setStatusBill(statusBill);
+        billService.save(bill);
+        notificationService.save(notificationService.createAlertCompleteByBillFormSenderToReceiver(bill));
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+    @GetMapping("/lover-accept-bill/{idBill}")
+    public ResponseEntity<?> loverAcceptBill1(@PathVariable Long idBill) {
+        Bill bill = billService.findById(idBill);
+        ProfileLover profileLover = profileLoverService.findByIdAccount1(bill.getAccountLover().getId());
+        if (profileLover.getStatusLover().getId() == 2) {
+            return new ResponseEntity<>("Bạn đang có 1 đơn chưa hoàn thành!", HttpStatus.OK);
+        }
+        StatusLover statusLover = statusLoverService.findById(2L);
+        profileLover.setStatusLover(statusLover);
+        StatusBill statusBill = statusBillService.findById(Long.valueOf(2));
+        bill.setStatusBill(statusBill);
+        Notification notification = notificationService.createAlertConfirmByBillFormSenderToReceiver(bill);
+        notificationService.save(notification);
+        billService.save(bill);
+        return new ResponseEntity<>("Xác nhận đơn thành công!", HttpStatus.OK);
     }
 }
 

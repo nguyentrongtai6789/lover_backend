@@ -2,15 +2,20 @@ package com.example.loverbackend.controller;
 
 import com.example.loverbackend.dto.AccountDTO;
 import com.example.loverbackend.dto.RoleDTO;
+import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.RoleMapper;
 import com.example.loverbackend.model.Account;
+import com.example.loverbackend.model.Notification;
 import com.example.loverbackend.model.Role;
+import com.example.loverbackend.model.StatusAccount;
 import com.example.loverbackend.security.jwt.JwtResponse;
 import com.example.loverbackend.security.jwt.JwtService;
 import com.example.loverbackend.service.extend.AccountService;
 import com.example.loverbackend.service.extend.ProfileUserService;
 import com.example.loverbackend.service.extend.RoleService;
 //import javafx.scene.effect.SepiaTone;
+import com.example.loverbackend.service.impl.NotificationService;
+import com.example.loverbackend.service.impl.StatusAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +48,8 @@ public class AccountController {
 
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private AccountMapper accountMapper;
 
     @Autowired
     private AccountService accountService;
@@ -52,6 +59,10 @@ public class AccountController {
     private RoleMapper roleMapper;
     @Autowired
     private ProfileUserService profileUserService;
+    @Autowired
+    private StatusAccountService statusAccountService;
+    @Autowired
+    private NotificationService notificationService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<?> login(@RequestBody Account account) {
@@ -120,13 +131,26 @@ public class AccountController {
             account.setRoles(roleSet);
             account.setPassword(passwordEncoder.encode(account.getPassword()));
 //             create new account:
-            accountService.save(account);
             account.setCreatedAt(LocalDateTime.now());
+            StatusAccount statusAccount = statusAccountService.findById(Long.valueOf(1));
+            account.setStatusAccount(statusAccount);
+            accountService.save(account);
+            Account account1 = accountService.accountFindByUsername(account.getUsername());
+            Notification notification = notificationService.createNewByIdAccount(Long.valueOf(14), account1.getId());
+            notification.setContent("[Admin] Chào mừng " + account.getNickname() + " đã đến với lover!" +
+                    " Hãy hoàn tất việc cập nhật thông tin của bạn." +
+                    " Chúc bạn có những trải nghiệm hoàn hảo!");
+            notificationService.save(notification);
             // create new profile user:
             profileUserService.createProfileUserWhenCreateAccount(account);
             return new ResponseEntity<>("4", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("5", HttpStatus.OK);
         }
+    }
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<AccountDTO> findById(@PathVariable Long id) {
+        AccountDTO accountDTO = accountMapper.toDto(accountService.findById(id));
+        return new ResponseEntity<>(accountDTO, HttpStatus.OK);
     }
 }

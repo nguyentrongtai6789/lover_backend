@@ -3,8 +3,10 @@ package com.example.loverbackend.controller;
 import com.example.loverbackend.dto.ProfileLoverDTO;
 import com.example.loverbackend.model.*;
 import com.example.loverbackend.service.IStatusUserService;
+import com.example.loverbackend.service.extend.AccountService;
 import com.example.loverbackend.service.extend.ProfileLoverService;
 import com.example.loverbackend.service.extend.ProfileUserService;
+import com.example.loverbackend.service.impl.NotificationService;
 import com.example.loverbackend.service.impl.StatusLoverService;
 import com.example.loverbackend.service.impl.StatusUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,10 @@ public class ProfileLoverController2 {
     private ProfileUserService profileUserService;
     @Autowired
     private StatusLoverService statusLoverService;
+    @Autowired
+    private NotificationService notificationService;
+    @Autowired
+    private AccountService accountService;
 
     @GetMapping("/findAll")
     public ResponseEntity<List<ProfileLoverDTO>> findAll() {
@@ -72,5 +78,18 @@ public class ProfileLoverController2 {
         }
         List<ProfileLoverDTO> profileLoverDTOS = profileLoverService.findAllByFilter(filter);
         return new ResponseEntity<>(profileLoverDTOS, HttpStatus.OK);
+    }
+    @PostMapping("/userSendRequestRegisterToLover/{idAccount}")
+    public ResponseEntity<?> userSendRequestRegisterToLover(@PathVariable Long idAccount,
+                                                            @RequestBody ProfileLover profileLover) {
+        // tạo profilelover mới nhưng set isActive = 2 (Chưa cho hoạt động)
+        profileLoverService.createProfileLoverWhenUserRequest(idAccount, profileLover);
+        // tạo thông báo mới gửi đến Admin: (mặc định admin có id = 14)
+        Account account = accountService.findById(idAccount);
+        Notification notification = notificationService.createNewByIdAccount(idAccount,Long.valueOf(14));
+        notification.setContent("Người dùng có nick name là " + account.getNickname()
+        + " đã gửi một yêu cầu đăng kí trở thành lover!");
+        notificationService.save(notification);
+        return new ResponseEntity<>("Gửi yêu cầu thành công", HttpStatus.OK);
     }
 }

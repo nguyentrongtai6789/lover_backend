@@ -1,17 +1,17 @@
 package com.example.loverbackend.service.extend;
 
+import com.example.loverbackend.dto.AccountDTO;
 import com.example.loverbackend.dto.ProfileLoverDTO;
 import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.ProfileLoverMapper;
-import com.example.loverbackend.model.Account;
-import com.example.loverbackend.model.Filter;
-import com.example.loverbackend.model.ProfileLover;
-import com.example.loverbackend.model.StatusLover;
+import com.example.loverbackend.model.*;
 import com.example.loverbackend.repository.ProfileLoverRepository;
+import com.example.loverbackend.repository.ProfileUserRepository;
 import com.example.loverbackend.repository.StatusLoverRepository;
 import com.example.loverbackend.service.BaseService;
 import com.example.loverbackend.service.IStatusLoverService;
 import com.example.loverbackend.service.impl.StatusLoverService;
+import com.example.loverbackend.service.impl.StatusUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -33,6 +33,12 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     private AccountService accountService;
     @Autowired
     private IStatusLoverService statusLoverService;
+    @Autowired
+    private ProfileUserService profileUserService;
+    @Autowired
+    private StatusUserService statusUserService;
+    @Autowired
+    private ProfileUserRepository profileUserRepository;
 
     @Override
     public void save(ProfileLover profileLover) {
@@ -92,13 +98,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     }
 
     public ProfileLover findByIdAccount1(Long id) {
-        List<ProfileLover> profileLovers = profileLoverRepository.findAll();
-        for (ProfileLover profileLover : profileLovers) {
-            if (profileLover.getAccount().getId().equals(id)) {
-                return profileLover;
-            }
-        }
-        return null;
+       ProfileLover profileLover = profileLoverRepository.findByAccount_Id(id);
+       return profileLover;
     }
 
     public Optional<ProfileLoverDTO> findByIdAccount(Long idAccount) {
@@ -144,6 +145,21 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     public List<ProfileLoverDTO> findAllByNormaFilter(Filter filter) {
         List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLoverRepository
                 .findAllByNormalFilter(filter.getIdGender(), filter.getIdCity(), filter.getIdStatusLover()));
+        List<ProfileLoverDTO> profileLoverDTOList = new ArrayList<>();
+        if (filter.getIdCountry() != 0) {
+            for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
+                if (profileLoverDTO.getCity().getCountry().getId() == filter.getIdCountry()
+                        && profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue())) {
+                    profileLoverDTOList.add(profileLoverDTO);
+                }
+            }
+        } else {
+            for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
+                if (profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue())) {
+                    profileLoverDTOList.add(profileLoverDTO);
+                }
+            }
+        }
         if (filter.getArrangeCost() == 1) {
             Comparator<ProfileLoverDTO> priceComparator = new Comparator<ProfileLoverDTO>() {
                 @Override
@@ -157,8 +173,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
                     }
                 }
             };
-            Collections.sort(profileLoverDTOS, priceComparator);
-            return profileLoverDTOS;
+            Collections.sort(profileLoverDTOList, priceComparator);
+            return profileLoverDTOList;
         } else {
             Comparator<ProfileLoverDTO> priceComparator = new Comparator<ProfileLoverDTO>() {
                 @Override
@@ -172,8 +188,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
                     }
                 }
             };
-            Collections.sort(profileLoverDTOS, priceComparator);
-            return profileLoverDTOS;
+            Collections.sort(profileLoverDTOList, priceComparator);
+            return profileLoverDTOList;
         }
     }
 
@@ -193,6 +209,21 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
                 }
             }
         }
+        List<ProfileLoverDTO> profileLoverDTOList2 = new ArrayList<>();
+        if (filter.getIdCountry() != 0) {
+            for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
+                if (profileLoverDTO.getCity().getCountry().getId() == filter.getIdCountry()
+                        && profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue())) {
+                    profileLoverDTOList2.add(profileLoverDTO);
+                }
+            }
+        } else {
+            for (ProfileLoverDTO profileLoverDTO : profileLoverDTOS) {
+                if (profileLoverDTO.getAccount().getNickname().contains(filter.getSearchValue())) {
+                    profileLoverDTOList2.add(profileLoverDTO);
+                }
+            }
+        }
         if (filter.getArrangeCost() == 1) {
             Comparator<ProfileLoverDTO> priceComparator = new Comparator<ProfileLoverDTO>() {
                 @Override
@@ -206,8 +237,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
                     }
                 }
             };
-            Collections.sort(profileLoverDTOS, priceComparator);
-            return profileLoverDTOS;
+            Collections.sort(profileLoverDTOList2, priceComparator);
+            return profileLoverDTOList2;
         } else {
             Comparator<ProfileLoverDTO> priceComparator = new Comparator<ProfileLoverDTO>() {
                 @Override
@@ -221,8 +252,27 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
                     }
                 }
             };
-            Collections.sort(profileLoverDTOS, priceComparator);
-            return profileLoverDTOS;
+            Collections.sort(profileLoverDTOList2, priceComparator);
+            return profileLoverDTOList2;
         }
     }
-}
+    public void createProfileLoverWhenUserRequest(Long idAccount, ProfileLover profileLover) {
+        Account account = accountService.findById(idAccount);
+        profileLover.setAccount(account);
+        profileLover.setIsActive(2); // trạng thái đang bị khoá
+        StatusLover statusLover = statusLoverService.findById(Long.valueOf(2));
+        profileLover.setStatusLover(statusLover);// đang tạm ngưng cung cấp dịch vụ
+        profileLover.setAverageRateScore(0);
+        profileLover.setTotalMoneyRented(0);
+        profileLover.setTotalHourRented(0);
+        profileLover.setTotalViews(0L);
+        ProfileUser profileUser = profileUserService.findByIdAccountUser(idAccount);
+        StatusUser statusUser = statusUserService.findById(Long.valueOf(1));
+        profileUser.setStatusUser(statusUser); // chuyển trạng thái cho profileuser là đang đăng kí tài khoản lover
+        profileUserRepository.save(profileUser);
+        profileLoverRepository.save(profileLover);
+    }
+    public List<ProfileLoverDTO> findAllProfileLoverByIdRoles(Long idRoles){
+        return profileLoverMapper.toDto(profileLoverRepository.findAllByAccountRolesId(idRoles));
+     }
+ }

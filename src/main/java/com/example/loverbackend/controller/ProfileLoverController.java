@@ -121,5 +121,9 @@ public ResponseEntity<?> updateProfileLover(@RequestBody ProfileLoverDTO profile
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @PostMapping("/findAllProfileLoverByRoles/{id}")
+    public ResponseEntity<?> findAllProfileLoverByIdRoles(@PathVariable Long id){
+        return new ResponseEntity<>(profileLoverService.findAllProfileLoverByIdRoles(id),HttpStatus.OK);
+    }
 
 }

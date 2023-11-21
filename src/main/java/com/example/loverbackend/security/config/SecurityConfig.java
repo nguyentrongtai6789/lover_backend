@@ -67,6 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers( "/api/sendCodeToEmail/**").permitAll()
                 .antMatchers( "/api/sendCodeToEmail2/**").permitAll()
                 .antMatchers( "/api/createNewAccount/**").permitAll()
+                .antMatchers( "/api/findById/**").hasAnyRole(new String[]{"LOVER", "USER"})
                 .antMatchers( "/api/profileUser/**").hasAnyRole(new String[]{"LOVER", "USER"})
                 .antMatchers( "/api/profileLover/findAll").permitAll()
                 .antMatchers( "/api/profileLover/registerToLover/**").hasAnyRole("USER")
@@ -83,6 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/profileLover/findAllStatusLover").permitAll()
                 .antMatchers("/api/profileLover/findAllByFilter").permitAll()
                 .antMatchers("/api/profileLover/findById/**").permitAll()
+                .antMatchers("/api/profileLover/userSendRequestRegisterToLover/**").hasAnyRole("USER")
                 .antMatchers("/api/profileLoves/update").permitAll()
                 .antMatchers("/api/image/findAllByIdProfileLover/**").permitAll()
                 .antMatchers("/api/vipService/findVipServicesOfLover/**").permitAll()
@@ -96,6 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/bill/doneBillByLover/**").hasAnyRole("LOVER")
                 .antMatchers("/api/admin/findAllUserRegisterToLover").hasAnyRole("ADMIN")
                 .antMatchers("/api/admin/acceptUserToLover/**").hasAnyRole("ADMIN")
+                .antMatchers("/api/admin/findNotificationByIdAccount/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
