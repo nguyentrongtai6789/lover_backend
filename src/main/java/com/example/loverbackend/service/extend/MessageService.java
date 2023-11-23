@@ -46,4 +46,5 @@ public class MessageService extends BaseService<MessageRepository, MessageDTO, M
     public List<MessageDTO> findAll() {
         return messageMapper.toDto(messageRepository.findAll());
     }
+
 }
