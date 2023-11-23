@@ -23,7 +23,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/profileLover")
+    @RequestMapping("/api/profileLover")
 public class ProfileLoverController2 {
     @Autowired
     private ProfileLoverService profileLoverService;
