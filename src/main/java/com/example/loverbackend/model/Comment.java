@@ -15,4 +15,7 @@ public class Comment extends BaseEntity{
     @ManyToOne
     private Account accountReceive; // tài khoản được bình luận
     private String content;// nội dung bình luận
+    @OneToOne
+    private Bill bill;
+    private int rating;
 }
