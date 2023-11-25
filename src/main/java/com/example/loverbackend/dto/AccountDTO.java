@@ -13,4 +13,5 @@ public class AccountDTO extends BaseDTO {
     private String nickname;
     private Set<RoleDTO> roles;
     private StatusAccount statusAccount;
+    private String image;
 }

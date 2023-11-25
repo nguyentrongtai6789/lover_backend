@@ -12,9 +12,9 @@ public class Message extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    private Account accountSend; // người gửi
+    private Account fromUser; // người gửi
     @ManyToOne
-    private Account accountReceive; // người nhận
+    private Account toUser; // người nhận
     private String content; // nội dung tin nhắn
-    private LocalDateTime timeSend;
+    private LocalDateTime time;
 }

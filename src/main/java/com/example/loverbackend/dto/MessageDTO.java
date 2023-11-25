@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 @Data
 public class MessageDTO extends BaseDTO {
     private Long id;
-    private AccountDTO accountDTOSend;
-    private AccountDTO accountDTOReceive;
+    private AccountDTO fromUser;
+    private AccountDTO toUser;
     private String content;
-    private LocalDateTime timeSend;
+    private LocalDateTime time;
 }
