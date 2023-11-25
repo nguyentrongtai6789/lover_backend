@@ -8,4 +8,6 @@ public class CommentDTO extends BaseDTO {
     private AccountDTO accountDTOSend;
     private AccountDTO accountDTOReceive;
     private String content;
+    private BillDTO bill;
+    private int rating;
 }

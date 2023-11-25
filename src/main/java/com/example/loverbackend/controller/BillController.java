@@ -59,6 +59,11 @@ return new ResponseEntity<>(billService.listBill(id),HttpStatus.OK);
         return new ResponseEntity<>(billService.listHistoryBillProfileUser(id),HttpStatus.OK);
     }
 
+//    @GetMapping("/listBillProfileUserByEvaluate/{id}")
+//    public ResponseEntity<List<BillDTO>> listBillProfileUserByEvaluate(@PathVariable Long id){
+//        return new ResponseEntity<>(billService.listBillProfileUserByEvaluate(id), HttpStatus.OK);
+//    }
+
     @GetMapping("/findAllByAccountUserId/{id}")
     public ResponseEntity<List<BillDTO>> findByAccountUserId(@PathVariable Long id) {
         return new ResponseEntity<>(billService.findAllByAccountUserId(id), HttpStatus.OK);

@@ -19,4 +19,5 @@ public class BillDTO extends BaseDTO {
     private List<VipService> vipServices;
     private double totalMoney;
     private StatusBill statusBill;
+    private boolean isAssessment = false;
 }

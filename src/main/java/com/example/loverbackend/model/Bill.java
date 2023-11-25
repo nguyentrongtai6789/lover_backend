@@ -26,4 +26,5 @@ public class Bill extends BaseEntity {
     private double totalMoney; // tổng tiền
     @ManyToOne
     private StatusBill statusBill;
+    private boolean isAssessment = false;
 }
