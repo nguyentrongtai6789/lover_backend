@@ -43,6 +43,8 @@ dependencies {
     //mapper
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
+
 
     //jhipster
     implementation group: 'io.github.jhipster', name: 'jhipster-framework', version: '3.9.0'
