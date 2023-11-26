@@ -6,6 +6,8 @@ import com.example.loverbackend.model.Bill;
 import com.example.loverbackend.model.Comment;
 import com.example.loverbackend.service.extend.BillService;
 import com.example.loverbackend.service.extend.CommentService;
+import com.example.loverbackend.service.extend.ProfileLoverService;
+import com.example.loverbackend.service.extend.ProfileUserService;
 import com.example.loverbackend.service.impl.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +29,7 @@ public class CommentController {
     @Autowired
     private NotificationService notificationService;
     @Autowired
-    private BillService billService;
+    private ProfileLoverService profileLoverService;
     @GetMapping("/findAllByIdAccountReceive/{id}")
     public ResponseEntity<List<?>> findAllByIdAccountReceive(@PathVariable Long id){
     return new ResponseEntity<>(commentService.findAllByIdAccountReceive(id), HttpStatus.OK);
@@ -36,7 +38,7 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<CommentDTO> createComment(@RequestBody CommentDTO commentDTO){
         commentService.save(commentMapper.toEntity(commentDTO));
-        notificationService.createEvaluateBillFormSenderToReceiver(commentMapper.toEntity(commentDTO));
+        notificationService.save(notificationService.createEvaluateBillFormSenderToReceiver(commentMapper.toEntity(commentDTO)));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
