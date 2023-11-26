@@ -1,12 +1,15 @@
 package com.example.loverbackend.service.extend;
 
 import com.example.loverbackend.dto.AccountDTO;
+import com.example.loverbackend.dto.ProfileLoverDTO;
 import com.example.loverbackend.dto.ProfileUserDTO;
 import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.ProfileUserMapper;
 import com.example.loverbackend.model.Account;
+import com.example.loverbackend.model.ProfileLover;
 import com.example.loverbackend.model.ProfileUser;
 import com.example.loverbackend.model.StatusUser;
+import com.example.loverbackend.repository.ProfileLoverRepository;
 import com.example.loverbackend.repository.ProfileUserRepository;
 import com.example.loverbackend.service.BaseService;
 import com.example.loverbackend.service.impl.StatusUserService;
@@ -27,7 +30,10 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
     private AccountMapper accountMapper;
     @Autowired
     private StatusUserService statusUserService;
-
+    @Autowired
+    private AccountService accountService;
+    @Autowired
+    private ProfileLoverService profileLoverService;
     @Override
     public void save(ProfileUser profileUser) {
         profileUserRepository.save(profileUser);
@@ -85,13 +91,13 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
         return profileUserRepository.findByAccount_Id(id);
     }
     public void updateAvatar(String url, Long idAccount) {
-        List<ProfileUser> profileUsers = profileUserRepository.findAll();
-        for (ProfileUser profileUser : profileUsers) {
-            if (profileUser.getAccount().getId() == idAccount) {
-                profileUser.setAvatarImage(url);
-                break;
-            }
-        }
+        ProfileUser profileUser = profileUserRepository.findByAccount_Id(idAccount);
+        profileUser.setAvatarImage(url);
+        profileUserRepository.save(profileUser);
+        //set lại ảnh cho account
+        Account account = accountService.findById(idAccount);
+        account.setImage(url);
+        accountService.save(account);
     }
 
     public void updateInfo(ProfileUserDTO profileUserDTO) {
