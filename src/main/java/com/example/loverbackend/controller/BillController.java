@@ -38,6 +38,11 @@ public class BillController {
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
+    @PostMapping("/createBills")
+    public ResponseEntity<?> createBills(@RequestBody Bill bill) {
+        billService.save(bill);
+        return new ResponseEntity<>("OK", HttpStatus.OK);
+    }
     @GetMapping("/findAll")
     public ResponseEntity<List<BillDTO>> findAll() {
         return new ResponseEntity<>(billService.findAll(), HttpStatus.OK);
@@ -59,10 +64,10 @@ return new ResponseEntity<>(billService.listBill(id),HttpStatus.OK);
         return new ResponseEntity<>(billService.listHistoryBillProfileUser(id),HttpStatus.OK);
     }
 
-//    @GetMapping("/listBillProfileUserByEvaluate/{id}")
-//    public ResponseEntity<List<BillDTO>> listBillProfileUserByEvaluate(@PathVariable Long id){
-//        return new ResponseEntity<>(billService.listBillProfileUserByEvaluate(id), HttpStatus.OK);
-//    }
+    @GetMapping("/listBillProfileUserByEvaluate/{id}")
+    public ResponseEntity<List<BillDTO>> listBillProfileUserByEvaluate(@PathVariable Long id){
+        return new ResponseEntity<>(billService.listBillProfileUserByEvaluate(id), HttpStatus.OK);
+    }
 
     @GetMapping("/findAllByAccountUserId/{id}")
     public ResponseEntity<List<BillDTO>> findByAccountUserId(@PathVariable Long id) {

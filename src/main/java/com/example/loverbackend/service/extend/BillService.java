@@ -101,6 +101,16 @@ return billDTOList;
         }
         return billDTOList;
     }
+    public List<BillDTO> listBillProfileUserByEvaluate(Long id){
+        List<BillDTO> billDTOList = new ArrayList<>();
+        List<BillDTO> billDTOS = billMapper.toDto(billRepository.findAllByAccountUser_Id(id));
+        for (BillDTO billDTO:billDTOS){
+            if (billDTO.getStatusBill().getId().equals(3L) ){
+                billDTOList.add(billDTO);
+            }
+        }
+        return billDTOList;
+    }
     public boolean cancelBill (Bill bill){
         StatusBill statusBill = statusBillService.findById(5L);
         if (!bill.getStatusBill().getId().equals(2L)){
