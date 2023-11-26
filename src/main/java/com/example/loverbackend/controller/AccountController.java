@@ -134,6 +134,7 @@ public class AccountController {
             account.setCreatedAt(LocalDateTime.now());
             StatusAccount statusAccount = statusAccountService.findById(Long.valueOf(1));
             account.setStatusAccount(statusAccount);
+            account.setImage("https://firebasestorage.googleapis.com/v0/b/fir-upload-react-824b4.appspot.com/o/images%2Fc6e56503cfdd87da299f72dc416023d4.jpg?alt=media&token=707a56ef-9402-4ec2-8345-2057f928b3c6");
             accountService.save(account);
             Account account1 = accountService.accountFindByUsername(account.getUsername());
             Notification notification = notificationService.createNewByIdAccount(Long.valueOf(14), account1.getId());

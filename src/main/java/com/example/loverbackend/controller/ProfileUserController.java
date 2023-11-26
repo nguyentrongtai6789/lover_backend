@@ -6,12 +6,15 @@ import com.example.loverbackend.model.ProfileLover;
 import com.example.loverbackend.model.ProfileUser;
 import com.example.loverbackend.model.StatusUser;
 import com.example.loverbackend.service.IStatusUserService;
+import com.example.loverbackend.service.extend.ProfileLoverService;
 import com.example.loverbackend.service.extend.ProfileUserService;
 import com.example.loverbackend.service.impl.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -25,6 +28,8 @@ public class ProfileUserController {
     private IStatusUserService statusUserService;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private ProfileLoverService profileLoverService;
 
     @GetMapping("/findByIdAccount/{id}")
     public ResponseEntity<ProfileUserDTO> findByIdAccount(@PathVariable Long id) {
@@ -34,6 +39,11 @@ public class ProfileUserController {
     @PostMapping("/updateAvatarImage/{id}")
     public ResponseEntity<?> updateAvatarImage(@RequestBody ProfileUserDTO profileUserDTO, @PathVariable Long id) {
         profileUserService.updateAvatar(profileUserDTO.getAvatarImage(), id);
+        Optional<ProfileLover> profileLoverOptional = profileLoverService.findByIdAccount2(id);
+        if (profileLoverOptional.isPresent()) {
+            profileLoverOptional.get().setAvatarImage(profileUserDTO.getAvatarImage());
+            profileLoverService.save(profileLoverOptional.get());
+        }
         return new ResponseEntity<>("Sửa ảnh thành công!", HttpStatus.OK);
     }
 

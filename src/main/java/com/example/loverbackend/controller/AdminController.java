@@ -72,7 +72,6 @@ public class AdminController {
         // cài đặt khác:
         profileLover.setTotalHourRented(0);
         profileLover.setCreatedAt(LocalDateTime.now());
-        profileLover.setAvatarImage("https://firebasestorage.googleapis.com/v0/b/fir-upload-react-824b4.appspot.com/o/images%2Fc6e56503cfdd87da299f72dc416023d4.jpg?alt=media&token=707a56ef-9402-4ec2-8345-2057f928b3c6");
         profileLoverService.save(profileLover);
         // chuyển trạng thái cho profileuser:
         ProfileUser profileUser = profileUserService.findByIdAccountUser(idAccount);

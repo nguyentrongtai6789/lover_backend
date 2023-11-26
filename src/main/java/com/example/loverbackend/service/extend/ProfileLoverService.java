@@ -33,8 +33,7 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     private AccountService accountService;
     @Autowired
     private IStatusLoverService statusLoverService;
-    @Autowired
-    private ProfileUserService profileUserService;
+
     @Autowired
     private StatusUserService statusUserService;
     @Autowired
@@ -101,7 +100,10 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
        ProfileLover profileLover = profileLoverRepository.findByAccount_Id(id);
        return profileLover;
     }
-
+    public Optional<ProfileLover> findByIdAccount2(Long id) {
+        Optional<ProfileLover> profileLoverOptional = Optional.ofNullable(profileLoverRepository.findByAccount_Id(id));
+        return Optional.ofNullable(profileLoverOptional.orElse(null));
+    }
     public Optional<ProfileLoverDTO> findByIdAccount(Long idAccount) {
         Optional<ProfileLover> profileLoverOptional = Optional.ofNullable(profileLoverRepository.findByAccountId(idAccount));
         return Optional.ofNullable(profileLoverMapper.toDto(profileLoverOptional.orElse(null)));
@@ -137,6 +139,13 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
             Optional<ProfileLoverDTO> profileLoverDTOs = findByIdAccount(profileLoverDTO.getAccount().getId());
             profileLoverDTO.setId(profileLoverDTOs.get().getId());
             profileLoverRepository.save(profileLoverMapper.toEntity(profileLoverDTO));
+            // set lại ảnh cho profile user và account:
+            ProfileUser profileUser = profileUserRepository.findByAccount_Id(profileLoverDTO.getAccount().getId());
+            profileUser.setAvatarImage(profileLoverDTO.getAvatarImage());
+            profileUserRepository.save(profileUser);
+            Account account = accountService.findById(profileLoverDTO.getAccount().getId());
+            account.setImage(profileLoverDTO.getAvatarImage());
+            accountService.save(account);
         } else {
             profileLoverRepository.save(profileLoverMapper.toEntity(profileLoverDTO));
         }
@@ -266,7 +275,8 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         profileLover.setTotalMoneyRented(0);
         profileLover.setTotalHourRented(0);
         profileLover.setTotalViews(0L);
-        ProfileUser profileUser = profileUserService.findByIdAccountUser(idAccount);
+        profileLover.setAvatarImage(account.getImage());
+        ProfileUser profileUser = profileUserRepository.findByAccount_Id(idAccount);
         StatusUser statusUser = statusUserService.findById(Long.valueOf(1));
         profileUser.setStatusUser(statusUser); // chuyển trạng thái cho profileuser là đang đăng kí tài khoản lover
         profileUserRepository.save(profileUser);
