@@ -1,7 +1,9 @@
 package com.example.loverbackend.service.impl;
 
+import com.example.loverbackend.dto.CommentDTO;
 import com.example.loverbackend.model.Account;
 import com.example.loverbackend.model.Bill;
+import com.example.loverbackend.model.Comment;
 import com.example.loverbackend.model.Notification;
 import com.example.loverbackend.repository.NotificationRepository;
 import com.example.loverbackend.service.INotificationService;
@@ -99,6 +101,24 @@ public class NotificationService implements INotificationService {
         notification.setTimeSend(LocalDateTime.now());
         Account account = accountService.findById(bill.getAccountUser().getId());
         notification.setContent("[" + account.getNickname() + "]" +"Tôi có việc đột xuất lên không thể sử dụng dịch vụ lúc này , sẽ ủng hộ bạn lần tới . cảm ơn !!!");
+        return notification;
+    }
+    public Notification createEvaluateBillFormSenderToReceiver(Comment comment){
+        Notification notification = new Notification();
+        notification.setAccountSend(comment.getAccountSend());
+        notification.setAccountReceive(comment.getAccountReceive());
+        notification.setTimeSend(LocalDateTime.now());
+        Account account = accountService.findById(comment.getAccountSend().getId());
+        notification.setContent( account.getNickname() + "Đã đánh giá trải nghiệm dịch vụ của bạn . vui lòng vào trang cá nhân để xem thông tin chi tiết đánh giá");
+        return notification;
+    }
+    public Notification updateEvaluateBillFormSenderToReceiver(Comment comment){
+        Notification notification = new Notification();
+        notification.setAccountSend(comment.getAccountSend());
+        notification.setAccountReceive(comment.getAccountReceive());
+        notification.setTimeSend(LocalDateTime.now());
+        Account account = accountService.findById(comment.getAccountSend().getId());
+        notification.setContent( account.getNickname() + "Đã sửa đánh giá trải nghiệm dịch vụ của bạn . vui lòng vào trang cá nhân để xem thông tin chi tiết đánh giá");
         return notification;
     }
 }
