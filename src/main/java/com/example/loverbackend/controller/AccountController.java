@@ -84,10 +84,10 @@ public class AccountController {
     @PostMapping("/sendCodeToEmail/{email}")
     public ResponseEntity<?> registerNewAccount(@PathVariable String email) {
         if (accountService.checkEmailExisted(email)) {
-            return new ResponseEntity<>("Email này đã được sử dụng!", HttpStatus.OK);
+            return new ResponseEntity<>(1, HttpStatus.OK);
         }
         accountService.sendEmail(email);
-        return new ResponseEntity<>("Mã xác nhận đã gửi đến email của bạn!", HttpStatus.OK);
+        return new ResponseEntity<>(2, HttpStatus.OK);
     }
     @PostMapping("/sendCodeToEmail2/{email}")
     public ResponseEntity<?> sendCode2(@PathVariable String email) {
