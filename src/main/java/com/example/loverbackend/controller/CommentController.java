@@ -38,7 +38,6 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<CommentDTO> createComment(@RequestBody CommentDTO commentDTO){
         commentService.save(commentMapper.toEntity(commentDTO));
-        Long commentId = commentDTO.getId();
             notificationService.save(notificationService.createEvaluateBillFormSenderToReceiver(commentMapper.toEntity(commentDTO)));
         return new ResponseEntity<>(HttpStatus.OK);
     }
