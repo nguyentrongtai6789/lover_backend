@@ -293,4 +293,9 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
     public List<ProfileLoverDTO> findAllProfileLoverByIdRoles(Long idRoles){
         return profileLoverMapper.toDto(profileLoverRepository.findAllByAccountRolesId(idRoles));
      }
+     public List<ProfileLoverDTO> findTop5Lover() {
+        List<ProfileLover> profileLovers = profileLoverRepository.findTop5Lover();
+        List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLovers);
+        return profileLoverDTOS;
+     }
  }

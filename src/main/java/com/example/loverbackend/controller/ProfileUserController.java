@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -66,5 +67,9 @@ public class ProfileUserController {
     public ResponseEntity<?> deleteNotificationById(@PathVariable Long id) {
         notificationService.deleteById(id);
         return new ResponseEntity<>("", HttpStatus.OK);
+    }
+    @GetMapping("/findTop5User")
+    public ResponseEntity<List<ProfileUserDTO>> findTop5User() {
+        return new ResponseEntity<>(profileUserService.findTop5User(), HttpStatus.OK);
     }
 }
