@@ -94,4 +94,8 @@ public class ProfileLoverController2 {
         notificationService.save(notification);
         return new ResponseEntity<>("Gửi yêu cầu thành công", HttpStatus.OK);
     }
+    @GetMapping("/findTop5Lover")
+    public ResponseEntity<List<ProfileLoverDTO>> findTop5Lover() {
+        return new ResponseEntity<>(profileLoverService.findTop5Lover(), HttpStatus.OK);
+    }
 }
