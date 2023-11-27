@@ -117,6 +117,7 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
     public void updateProfileUserByTotalSpending(Bill bill){
         ProfileUser profileUser = profileUserRepository.findByAccount_Id(bill.getAccountUser().getId());
         profileUser.setTotalSpending(bill.getTotalMoney()+profileUser.getTotalSpending());
+        profileUser.setTotalViews(profileUser.getTotalViews()+ bill.getTime());
         profileUserRepository.save(profileUser);
     }
 }

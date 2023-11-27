@@ -18,4 +18,6 @@ public class ProfileUserDTO extends BaseDTO {
     private LocalDateTime updateAt;
     private StatusUser statusUser;
     private double totalSpending;
+    private int totalViews;
+
 }
