@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,6 +90,7 @@ public class ProfileLoverController2 {
         Notification notification = notificationService.createNewByIdAccount(idAccount,Long.valueOf(14));
         notification.setContent("Người dùng có nick name là " + account.getNickname()
         + " đã gửi một yêu cầu đăng kí trở thành lover!");
+        notification.setTimeSend(LocalDateTime.now());
         notificationService.save(notification);
         return new ResponseEntity<>("Gửi yêu cầu thành công", HttpStatus.OK);
     }
