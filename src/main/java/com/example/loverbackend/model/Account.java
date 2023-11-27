@@ -25,10 +25,12 @@ public class Account extends BaseEntity {
     private String email;
     @Column(nullable = false)
     private String nickname; // tên hiển thị trong ứng dụng
-
+    private String image;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "accounts_roles",
             joinColumns = {@JoinColumn(name = "account_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles;
+    @ManyToOne
+    private StatusAccount statusAccount;
 }

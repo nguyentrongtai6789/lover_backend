@@ -2,7 +2,9 @@ package com.example.loverbackend.service.extend;
 
 import com.example.loverbackend.dto.MessageDTO;
 import com.example.loverbackend.mapper.MessageMapper;
+import com.example.loverbackend.model.Account;
 import com.example.loverbackend.model.Message;
+import com.example.loverbackend.repository.AccountRepository;
 import com.example.loverbackend.repository.MessageRepository;
 import com.example.loverbackend.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,26 @@ import java.util.Optional;
 public class MessageService extends BaseService<MessageRepository, MessageDTO, Message> {
     @Autowired
     private MessageRepository messageRepository;
+
     @Autowired
     private MessageMapper messageMapper;
+
+    @Autowired
+    private AccountRepository accountRepository;
+
+    //tìm kiếm toàn bộ bạn bè:
+    public List<Message> initialStateAllChatFriends(Long loggedInUserId) {
+        return messageRepository.initialStateAllChatFriends(loggedInUserId);
+    }
+
+    // toàn bộ message trong đoạn chat:
+    public List<Message> getAllMessages(String loggedInUsername, Long chatUserId) {
+        Account loggedUser = accountRepository.findByUsername(loggedInUsername).get();
+        Account chatUser = accountRepository.findById(chatUserId).get();
+        return messageRepository.findAllMessagesBetweenTwoUsers(loggedUser.getId() , chatUser.getId());
+    }
+
+
 
     @Override
     public void save(Message message) {
@@ -45,5 +65,8 @@ public class MessageService extends BaseService<MessageRepository, MessageDTO, M
     @Override
     public List<MessageDTO> findAll() {
         return messageMapper.toDto(messageRepository.findAll());
+    }
+    public Message findById(Long id) {
+        return messageRepository.findById(id).get();
     }
 }

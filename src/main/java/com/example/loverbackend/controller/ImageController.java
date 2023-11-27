@@ -19,4 +19,19 @@ public class ImageController {
     public ResponseEntity<Iterable<?>> showListByIdProfileLover(@PathVariable Long id) {
         return new ResponseEntity<>(imageService.findAllByIdProfileLover(id), HttpStatus.OK);
     }
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody Image image){
+        imageService.save(image);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteImage(@PathVariable Long id){
+        Image image = imageService.findById(id);
+        if (image != null){
+            imageService.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

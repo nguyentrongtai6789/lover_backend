@@ -5,11 +5,12 @@ import com.example.loverbackend.mapper.CommentMapper;
 import com.example.loverbackend.model.Comment;
 import com.example.loverbackend.repository.CommentRepository;
 import com.example.loverbackend.service.BaseService;
+import com.example.loverbackend.service.impl.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class CommentService extends BaseService<CommentRepository, CommentDTO, Comment> {
@@ -17,8 +18,11 @@ public class CommentService extends BaseService<CommentRepository, CommentDTO, C
     private CommentRepository commentRepository;
     @Autowired
     private CommentMapper commentMapper;
+    @Autowired
+    private NotificationService notificationService;
     @Override
     public void save(Comment comment) {
+        comment.setCreatedAt(LocalDateTime.now());
         commentRepository.save(comment);
     }
 
@@ -44,5 +48,30 @@ public class CommentService extends BaseService<CommentRepository, CommentDTO, C
     @Override
     public List<CommentDTO> findAll() {
         return commentMapper.toDto(commentRepository.findAll());
+    }
+    public List<CommentDTO> findAllByIdAccountReceive(Long id){
+        return commentMapper.toDto(commentRepository.findCommentByAccountReceiveId(id));
+    }
+    public void updateComment(Long id ,CommentDTO commentDTO) {
+        Optional<Comment> commentDTO1 = commentRepository.findById(id);
+        if (commentDTO1.isPresent()) {
+            commentDTO.setId(commentDTO1.get().getId());
+            commentRepository.save(commentMapper.toEntity(commentDTO));
+            notificationService.updateEvaluateBillFormSenderToReceiver(commentMapper.toEntity(commentDTO));
+        }
+    }
+    public CommentDTO findByIdBill(Long id){
+        return commentMapper.toDto(commentRepository.findCommentByBillId(id));
+    }
+    public List<CommentDTO> findAllCommentByIdAccount(Long idUser,Long idLover){
+        List<Comment> commentDTOList = commentRepository.findCommentByAccountSendId(idUser);
+        List<Comment> comments = new ArrayList<>();
+        for (Comment comment:commentDTOList){
+            if(comment.getAccountReceive().getId().equals(idLover)){
+                comments.add(comment);
+            }
+        }
+        Collections.sort(comments, Comparator.comparing(Comment::getCreatedAt).reversed());
+        return commentMapper.toDto(comments);
     }
 }

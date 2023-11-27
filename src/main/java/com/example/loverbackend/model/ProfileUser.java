@@ -19,6 +19,8 @@ public class ProfileUser extends BaseEntity {
     private String firstName; // tên
     private String avatarImage; // link ảnh đại diện
     private String phoneNumber;// số điện thoại
+    private double totalSpending;
+    private int totalViews;
     @ManyToOne
     private StatusUser statusUser;
 }

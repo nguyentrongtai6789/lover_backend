@@ -1,13 +1,15 @@
 package com.example.loverbackend.service.extend;
 
 import com.example.loverbackend.dto.AccountDTO;
+import com.example.loverbackend.dto.ProfileLoverDTO;
 import com.example.loverbackend.dto.ProfileUserDTO;
 import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.ProfileUserMapper;
-import com.example.loverbackend.model.Account;
-import com.example.loverbackend.model.ProfileUser;
+import com.example.loverbackend.model.*;
+import com.example.loverbackend.repository.ProfileLoverRepository;
 import com.example.loverbackend.repository.ProfileUserRepository;
 import com.example.loverbackend.service.BaseService;
+import com.example.loverbackend.service.impl.StatusUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,12 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
     private ProfileUserMapper profileUserMapper;
     @Autowired
     private AccountMapper accountMapper;
-
+    @Autowired
+    private StatusUserService statusUserService;
+    @Autowired
+    private AccountService accountService;
+    @Autowired
+    private ProfileLoverService profileLoverService;
     @Override
     public void save(ProfileUser profileUser) {
         profileUserRepository.save(profileUser);
@@ -58,6 +65,9 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
         profileUser.setCreatedAt(LocalDateTime.now());
         profileUser.setAccount(account);
         profileUser.setIsActive(1);
+        // đặt trạng thái ban đầu là chưa đăng kí tài khoản lover
+        StatusUser statusUser = statusUserService.findById(Long.valueOf(3));
+        profileUser.setStatusUser(statusUser);
         profileUser.setAvatarImage("https://firebasestorage.googleapis.com/v0/b/fir-upload-react-824b4.appspot.com/o/images%2Fc6e56503cfdd87da299f72dc416023d4.jpg?alt=media&token=707a56ef-9402-4ec2-8345-2057f928b3c6");
         profileUserRepository.save(profileUser);
     }
@@ -78,13 +88,13 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
         return profileUserRepository.findByAccount_Id(id);
     }
     public void updateAvatar(String url, Long idAccount) {
-        List<ProfileUser> profileUsers = profileUserRepository.findAll();
-        for (ProfileUser profileUser : profileUsers) {
-            if (profileUser.getAccount().getId() == idAccount) {
-                profileUser.setAvatarImage(url);
-                break;
-            }
-        }
+        ProfileUser profileUser = profileUserRepository.findByAccount_Id(idAccount);
+        profileUser.setAvatarImage(url);
+        profileUserRepository.save(profileUser);
+        //set lại ảnh cho account
+        Account account = accountService.findById(idAccount);
+        account.setImage(url);
+        accountService.save(account);
     }
 
     public void updateInfo(ProfileUserDTO profileUserDTO) {
@@ -103,5 +113,16 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
     }
     public List<ProfileUserDTO> findByStatusUserId(Long id) {
         return profileUserMapper.toDto(profileUserRepository.findAllByStatusUser_Id(id));
+    }
+    public void updateProfileUserByTotalSpending(Bill bill){
+        ProfileUser profileUser = profileUserRepository.findByAccount_Id(bill.getAccountUser().getId());
+        profileUser.setTotalSpending(bill.getTotalMoney()+profileUser.getTotalSpending());
+        profileUser.setTotalViews(profileUser.getTotalViews()+ bill.getTime());
+        profileUserRepository.save(profileUser);
+    }
+    public List<ProfileUserDTO> findTop5User() {
+        List<ProfileUser> profileUsers = profileUserRepository.findTop5User();
+        List<ProfileUserDTO> profileUserDTOS = profileUserMapper.toDto(profileUsers);
+        return profileUserDTOS;
     }
 }

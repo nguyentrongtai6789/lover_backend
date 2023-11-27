@@ -7,14 +7,14 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class Message extends BaseEntity{
+public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String content;
+    private LocalDateTime timeSend;
     @ManyToOne
-    private Account fromUser; // người gửi
+    private Account accountSend;
     @ManyToOne
-    private Account toUser; // người nhận
-    private String content; // nội dung tin nhắn
-    private LocalDateTime time;
+    private Account accountReceive;
 }

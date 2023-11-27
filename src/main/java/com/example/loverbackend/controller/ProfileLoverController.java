@@ -78,12 +78,8 @@ public ResponseEntity<?> updateProfileLover(@RequestBody ProfileLoverDTO profile
 }
     @GetMapping("/findByIdAccount/{id}")
     public ResponseEntity<?> findByIdAccount(@PathVariable Long id){
-        Optional<ProfileLoverDTO> profileLoverDTO = profileLoverService.findByIdAccount(id);
-        if (profileLoverDTO.isPresent()){
+        ProfileLoverDTO profileLoverDTO = profileLoverService.findByIdAccount(id).get();
             return new ResponseEntity<>(profileLoverDTO,HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
     @PostMapping("/services/{profileLoverId}")
     public ResponseEntity<?> addServicesToProfileLover(@PathVariable Long profileLoverId, @RequestBody List<Long> serviceIds) {
@@ -120,6 +116,10 @@ public ResponseEntity<?> updateProfileLover(@RequestBody ProfileLoverDTO profile
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+    @PostMapping("/findAllProfileLoverByRoles/{id}")
+    public ResponseEntity<?> findAllProfileLoverByIdRoles(@PathVariable Long id){
+        return new ResponseEntity<>(profileLoverService.findAllProfileLoverByIdRoles(id),HttpStatus.OK);
     }
 
 }

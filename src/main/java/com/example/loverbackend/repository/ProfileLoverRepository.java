@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProfileLoverRepository extends BaseRepository<ProfileLover>, JpaRepository<ProfileLover, Long> {
     default List<ProfileLoverDTO> sortProfileLoversByMoneyDescending(List<ProfileLoverDTO> loverDTOS) {
@@ -25,6 +26,8 @@ public interface ProfileLoverRepository extends BaseRepository<ProfileLover>, Jp
     }
 
     ProfileLover findByAccountId(Long id);
+
+    ProfileLover findByAccount_Id(Long id);
 
     @Transactional
     @Modifying
@@ -68,7 +71,7 @@ public interface ProfileLoverRepository extends BaseRepository<ProfileLover>, Jp
             "         JOIN profile_lovers_vip_services vs ON a.profile_lover_id = vs.id_profile_lover\n" +
             "         JOIN profile_lovers_free_services fs ON a.profile_lover_id = fs.id_profile_lover\n" +
             "WHERE (:idVipService = 0 OR vs.id_vip_service = :idVipService)\n" +
-            "  AND (:idFreeService = 0 OR fs.id_free_service = :idFreeService)"+
+            "  AND (:idFreeService = 0 OR fs.id_free_service = :idFreeService)" +
             ";", nativeQuery = true)
     List<Long> findAllByFilter(Long idBaseService, Long idGender, Long idCity, Long idStatus,
                                Long idVipService, Long idFreeService);
@@ -82,4 +85,11 @@ public interface ProfileLoverRepository extends BaseRepository<ProfileLover>, Jp
             "  AND (:statusId = 0 OR p.status_lover_id = :statusId)\n" +
             ";", nativeQuery = true)
     List<ProfileLover> findAllByNormalFilter(Long genderId, Long cityId, Long statusId);
+
+    List<ProfileLover> findAllByAccountRolesId(Long idRoles);
+    @Transactional
+    @Modifying
+    @Query(value = "select * from profile_lover order by total_hour_rented desc limit 5;", nativeQuery = true)
+    List<ProfileLover> findTop5Lover();
 }
+
