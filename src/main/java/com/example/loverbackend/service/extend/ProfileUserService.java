@@ -5,10 +5,7 @@ import com.example.loverbackend.dto.ProfileLoverDTO;
 import com.example.loverbackend.dto.ProfileUserDTO;
 import com.example.loverbackend.mapper.AccountMapper;
 import com.example.loverbackend.mapper.ProfileUserMapper;
-import com.example.loverbackend.model.Account;
-import com.example.loverbackend.model.ProfileLover;
-import com.example.loverbackend.model.ProfileUser;
-import com.example.loverbackend.model.StatusUser;
+import com.example.loverbackend.model.*;
 import com.example.loverbackend.repository.ProfileLoverRepository;
 import com.example.loverbackend.repository.ProfileUserRepository;
 import com.example.loverbackend.service.BaseService;
@@ -116,5 +113,11 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
     }
     public List<ProfileUserDTO> findByStatusUserId(Long id) {
         return profileUserMapper.toDto(profileUserRepository.findAllByStatusUser_Id(id));
+    }
+    public void updateProfileUserByTotalSpending(Bill bill){
+        ProfileUser profileUser = profileUserRepository.findByAccount_Id(bill.getAccountUser().getId());
+        profileUser.setTotalSpending(bill.getTotalMoney()+profileUser.getTotalSpending());
+        profileUser.setTotalViews(profileUser.getTotalViews()+ bill.getTime());
+        profileUserRepository.save(profileUser);
     }
 }
