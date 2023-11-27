@@ -86,13 +86,14 @@ public class AdminController {
         notification1.setContent("[Admin] Chúc mừng bạn đã đăng ký thành công tài khoản lover! " +
                 "Hãy vào trang lover của bạn và hoàn tất các thông tin cần thiết để thu hút người dùng! " +
                 "Chúc bạn thành công!");
+        notification1.setTimeSend(LocalDateTime.now());
         notificationService.save(notification1);
         return new ResponseEntity<>("Xác nhận cấp quyền cho lover thành công!", HttpStatus.OK);
     }
 
     @GetMapping("/findNotificationByIdAccount/{idAccount}")
     public ResponseEntity<List<Notification>> findNotificationByIdAccount(@PathVariable Long idAccount) {
-        return new ResponseEntity<>(notificationService.findAllByIdAccountReceive(idAccount), HttpStatus.OK);
+        return new ResponseEntity<>(notificationService.findByIdAccountReceive(idAccount), HttpStatus.OK);
     }
     @GetMapping("/findAllNotificationByIdAccount/{idAccount}")
     public ResponseEntity<List<Notification>> findAllNotificationByIdAccount(@PathVariable Long idAccount) {
