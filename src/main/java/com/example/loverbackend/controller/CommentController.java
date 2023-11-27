@@ -52,4 +52,8 @@ public class CommentController {
     public ResponseEntity<?> findByIdBill(@PathVariable Long idBill){
         return new ResponseEntity<>(commentService.findByIdBill(idBill),HttpStatus.OK);
     }
+    @GetMapping("findAllCommentByIdSend/{idUser}/{idLover}")
+    public ResponseEntity<?> findAllCommentByIdSend(@PathVariable Long idUser ,@PathVariable Long idLover){
+        return new ResponseEntity<>(commentService.findAllCommentByIdAccount(idUser,idLover),HttpStatus.OK);
+    }
 }
