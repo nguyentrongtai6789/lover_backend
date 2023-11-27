@@ -61,4 +61,7 @@ public class CommentService extends BaseService<CommentRepository, CommentDTO, C
             notificationService.updateEvaluateBillFormSenderToReceiver(commentMapper.toEntity(commentDTO));
         }
     }
+    public CommentDTO findByIdBill(Long id){
+        return commentMapper.toDto(commentRepository.findCommentByBillId(id));
+    }
 }

@@ -38,13 +38,19 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<CommentDTO> createComment(@RequestBody CommentDTO commentDTO){
         commentService.save(commentMapper.toEntity(commentDTO));
-        notificationService.save(notificationService.createEvaluateBillFormSenderToReceiver(commentMapper.toEntity(commentDTO)));
+        Long commentId = commentDTO.getId();
+            notificationService.save(notificationService.createEvaluateBillFormSenderToReceiver(commentMapper.toEntity(commentDTO)));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<?> updateComment(@PathVariable Long id,CommentDTO commentDTO){
-        commentService.updateComment(id,commentDTO);
+    @PostMapping("/update")
+    public ResponseEntity<?> updateComment(@RequestBody CommentDTO commentDTO){
+        commentService.save(commentMapper.toEntity(commentDTO));
+        notificationService.save(notificationService.updateEvaluateBillFormSenderToReceiver(commentMapper.toEntity(commentDTO)));
             return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("findByBillId/{idBill}")
+    public ResponseEntity<?> findByIdBill(@PathVariable Long idBill){
+        return new ResponseEntity<>(commentService.findByIdBill(idBill),HttpStatus.OK);
     }
 }
