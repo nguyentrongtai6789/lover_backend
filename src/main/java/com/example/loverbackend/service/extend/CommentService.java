@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CommentService extends BaseService<CommentRepository, CommentDTO, Comment> {
@@ -63,5 +62,16 @@ public class CommentService extends BaseService<CommentRepository, CommentDTO, C
     }
     public CommentDTO findByIdBill(Long id){
         return commentMapper.toDto(commentRepository.findCommentByBillId(id));
+    }
+    public List<CommentDTO> findAllCommentByIdAccount(Long idUser,Long idLover){
+        List<Comment> commentDTOList = commentRepository.findCommentByAccountSendId(idUser);
+        List<Comment> comments = new ArrayList<>();
+        for (Comment comment:commentDTOList){
+            if(comment.getAccountReceive().getId().equals(idLover)){
+                comments.add(comment);
+            }
+        }
+        Collections.sort(comments, Comparator.comparing(Comment::getCreatedAt).reversed());
+        return commentMapper.toDto(comments);
     }
 }
