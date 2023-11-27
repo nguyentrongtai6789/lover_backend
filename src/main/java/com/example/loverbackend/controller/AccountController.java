@@ -141,6 +141,7 @@ public class AccountController {
             notification.setContent("[Admin] Chào mừng " + account.getNickname() + " đã đến với lover!" +
                     " Hãy hoàn tất việc cập nhật thông tin của bạn." +
                     " Chúc bạn có những trải nghiệm hoàn hảo!");
+            notification.setTimeSend(LocalDateTime.now());
             notificationService.save(notification);
             // create new profile user:
             profileUserService.createProfileUserWhenCreateAccount(account);
