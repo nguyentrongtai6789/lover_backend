@@ -4,6 +4,7 @@ import com.example.loverbackend.dto.BillDTO;
 import com.example.loverbackend.model.*;
 import com.example.loverbackend.service.extend.BillService;
 import com.example.loverbackend.service.extend.ProfileLoverService;
+import com.example.loverbackend.service.extend.ProfileUserService;
 import com.example.loverbackend.service.impl.NotificationService;
 import com.example.loverbackend.service.impl.StatusBillService;
 import com.example.loverbackend.service.impl.StatusLoverService;
@@ -29,6 +30,8 @@ public class BillController {
     private StatusLoverService statusLoverService;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private ProfileUserService profileUserService;
 
     @PostMapping("/createBill")
     public ResponseEntity<?> createBill(@RequestBody Bill bill) {
@@ -140,6 +143,7 @@ return new ResponseEntity<>(billService.listBill(id),HttpStatus.OK);
         StatusBill statusBill = statusBillService.findById(Long.valueOf(3));
         bill.setStatusBill(statusBill);
         billService.save(bill);
+        profileUserService.updateProfileUserByTotalSpending(bill);
         notificationService.save(notificationService.createAlertCompleteByBillFormSenderToReceiver(bill));
         return new ResponseEntity<>("", HttpStatus.OK);
     }
