@@ -120,4 +120,9 @@ public class ProfileUserService extends BaseService<ProfileUserRepository, Profi
         profileUser.setTotalViews(profileUser.getTotalViews()+ bill.getTime());
         profileUserRepository.save(profileUser);
     }
+    public List<ProfileUserDTO> findTop5User() {
+        List<ProfileUser> profileUsers = profileUserRepository.findTop5User();
+        List<ProfileUserDTO> profileUserDTOS = profileUserMapper.toDto(profileUsers);
+        return profileUserDTOS;
+    }
 }
