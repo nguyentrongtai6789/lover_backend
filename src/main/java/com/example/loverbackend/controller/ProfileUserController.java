@@ -33,7 +33,7 @@ public class ProfileUserController {
 
     @GetMapping("/findByIdAccount/{id}")
     public ResponseEntity<ProfileUserDTO> findByIdAccount(@PathVariable Long id) {
-        return new ResponseEntity<>(profileUserService.findByIdAccount(id), HttpStatus.OK);
+        return new ResponseEntity<>(profileUserMapper.toDto(profileUserService.findByIdAccountUser(id)), HttpStatus.OK);
     }
 
     @PostMapping("/updateAvatarImage/{id}")
