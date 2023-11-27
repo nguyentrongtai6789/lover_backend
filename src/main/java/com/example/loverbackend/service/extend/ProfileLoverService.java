@@ -10,6 +10,7 @@ import com.example.loverbackend.repository.ProfileUserRepository;
 import com.example.loverbackend.repository.StatusLoverRepository;
 import com.example.loverbackend.service.BaseService;
 import com.example.loverbackend.service.IStatusLoverService;
+import com.example.loverbackend.service.impl.ImageService;
 import com.example.loverbackend.service.impl.StatusLoverService;
 import com.example.loverbackend.service.impl.StatusUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,11 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
 
     @Autowired
     private StatusUserService statusUserService;
+
     @Autowired
     private ProfileUserRepository profileUserRepository;
+    @Autowired
+    private ImageService imageService;
 
     @Override
     public void save(ProfileLover profileLover) {
@@ -278,6 +282,10 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         profileLover.setAvatarImage(account.getImage());
         ProfileUser profileUser = profileUserRepository.findByAccount_Id(idAccount);
         StatusUser statusUser = statusUserService.findById(Long.valueOf(1));
+        Image image = new Image();
+        image.setProfileLover(profileLover);
+        image.setUrlImage(account.getImage());
+        imageService.save(image);
         profileUser.setStatusUser(statusUser); // chuyển trạng thái cho profileuser là đang đăng kí tài khoản lover
         profileUserRepository.save(profileUser);
         profileLoverRepository.save(profileLover);
