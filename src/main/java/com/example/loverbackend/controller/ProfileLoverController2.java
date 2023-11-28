@@ -98,4 +98,10 @@ public class ProfileLoverController2 {
     public ResponseEntity<List<ProfileLoverDTO>> findTop5Lover() {
         return new ResponseEntity<>(profileLoverService.findTop5Lover(), HttpStatus.OK);
     }
+    @GetMapping("/editPrice/{newPrice}/{id}")
+    public ResponseEntity<?> editPrice(@PathVariable double newPrice, @PathVariable Long id) {
+        profileLoverService.editPrice(newPrice, id);
+        return new ResponseEntity<>("OK",  HttpStatus.OK);
+
+    }
 }
