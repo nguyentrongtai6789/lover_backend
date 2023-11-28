@@ -298,4 +298,9 @@ public class ProfileLoverService extends BaseService<ProfileLoverRepository, Pro
         List<ProfileLoverDTO> profileLoverDTOS = profileLoverMapper.toDto(profileLovers);
         return profileLoverDTOS;
      }
+     public void editPrice(double newPrice, Long id) {
+        ProfileLover profileLover = profileLoverRepository.findByAccountId(id);
+        profileLover.setPrice(newPrice);
+        profileLoverRepository.save(profileLover);
+     }
  }
